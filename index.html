@@ -7,15 +7,19 @@
     <title>Responsive Web Design - ingGGRM - freeCodeCamp</title>
     <style>
         * {padding: 0; margin: 0; font-family: Arial, Helvetica, sans-serif;}
-        body {height: 100vh; background-image: url("images/wall.jpg"); display: flex;}
-        #container {
-            background-color: #f1f1f15f;
-            width: max(300px, 60%, 500px);
-            margin: auto;
-            padding: 10px;
-            text-align: center;
+        body {height: 100vh;
+            background-image: url("images/wall.jpg");
+            display: flex;
             justify-content: center;
             align-items: center;
+            flex-direction: column;
+        }
+        #container {
+            height: 90%;
+            background-color: #f1f1f15f;
+            width: max(300px, 60%, 500px);
+            padding: 10px;
+            text-align: center;
         }
         h2 {margin: 0 auto 1em auto; font-size: 30px;}
         h1 {margin: 1em auto; color: rgb(2, 25, 68); font-size: 36px;}
@@ -31,6 +35,16 @@
             font-weight: 700;
             color: black;
             text-shadow: white 2px 2px 5px;
+        }
+        #footer {
+            height: 10%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: 700;
+            color: black;
+            text-shadow: rgb(247, 223, 10) 2px 2px 5px, rgb(247, 223, 10) -2px -2px 5px;
         }
     </style>
 </head>
@@ -55,5 +69,6 @@
             <hr><span>PART TWO</span><hr>
         </div>
     </div>
+    <div id="footer">ingGGRM</div>
 </body>
 </html>
