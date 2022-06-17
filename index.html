@@ -5,20 +5,55 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Responsive Web Design - ingGGRM - freeCodeCamp</title>
+    <style>
+        * {padding: 0; margin: 0; font-family: Arial, Helvetica, sans-serif;}
+        body {height: 100vh; background-image: url("images/wall.jpg"); display: flex;}
+        #container {
+            background-color: #f1f1f15f;
+            width: max(300px, 60%, 500px);
+            margin: auto;
+            padding: 10px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+        }
+        h2 {margin: 0 auto 1em auto; font-size: 30px;}
+        h1 {margin: 1em auto; color: rgb(2, 25, 68); font-size: 36px;}
+        ul {list-style-type: none;}
+        li {width: 50%; margin: 10px auto; font-size: 24px;}
+        a {text-decoration: none; color: unset;}
+        .divider > * {
+            margin: 1em auto;
+            display: inline-block;
+            width: 30%;
+            vertical-align: middle;
+            font-size: 24px;
+            font-weight: 700;
+            color: black;
+            text-shadow: white 2px 2px 5px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Responsive Web Design Certification</h1>
-    <h2>Practice Projects</h2>
-    <ul>
-        <li><a href="./cat-photo-app/cat-photo-app.html">Cat Photo App</a></li>
-        <li><a href="./cafe-menu/cafe-menu.html">Cafe Menu</a></li>
-        <li><a href="./colored-markers/colored-markers.html">Colored Markers</a></li>
-        <li><a href="./registration-form/registration-form.html">Registration Form</a></li>
-    </ul>
-    <h2>Certification Project</h2>
-    <ul>
-        <li><a href="./survey-form/survey-form.html">Survey Form</a></li>
-    </ul>
-    <hr>
+    <div id="container">
+        <h1>Responsive Web Design Certification</h1>
+        <div class="divider">
+            <hr><span>PART ONE</span><hr>
+        </div>
+        <h2>Practice Projects</h2>
+        <ul>
+            <li><a href="./cat-photo-app/cat-photo-app.html">Cat Photo App</a></li>
+            <li><a href="./cafe-menu/cafe-menu.html">Cafe Menu</a></li>
+            <li><a href="./colored-markers/colored-markers.html">Colored Markers</a></li>
+            <li><a href="./registration-form/registration-form.html">Registration Form</a></li>
+        </ul>
+        <h2>Certification Project</h2>
+        <ul>
+            <li><a href="./survey-form/survey-form.html">Survey Form</a></li>
+        </ul>
+        <div class="divider">
+            <hr><span>PART TWO</span><hr>
+        </div>
+    </div>
 </body>
 </html>
