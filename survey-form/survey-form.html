@@ -10,46 +10,50 @@
 </head>
 
 <body>
-    <h1 id="title">ingGGRM - Survey Form</h1>
-    <p id="description">This survey will take a brief information of users around the world</p>
-    <form action="" id="survey-form">
-        <fieldset>
-            <legend>Main Data</legend>
-            <label id="name-label">
-                Enter your full name: <input type="text" id="name" placeholder="Elvis Presley" required>
+    <div id="container">
+        <h1 id="title">ingGGRM - Survey Form</h1>
+        <p id="description">This survey will take a brief information of users around the world</p>
+        <form action="" id="survey-form">
+            <fieldset>
+                <legend>Main Data</legend>
+                <label id="name-label">
+                    Enter your full name: <input type="text" id="name" placeholder="Elvis Presley" required>
+                </label>
+                <label id="email-label">
+                    Enter your email address: <input type="email" id="email" placeholder="example@example.com" required>
+                </label>
+                <label id="number-label">
+                    Enter a phone number (Optional): <input type="number" id="number" placeholder="11111111111" min="7"
+                        max="11">
+                </label>
+            </fieldset>
+            <label id="dropdown-label">
+                How do you agree with filling personal data in online surveys:
+                <select name="" id="dropdown">
+                    <option value="">Select one</option>
+                    <option value="">Very agree</option>
+                    <option value="">Somewhat agree</option>
+                    <option value="">Don't agree</option>
+                </select>
             </label>
-            <label id="email-label">
-                Enter your email address: <input type="email" id="email" placeholder="example@example.com" required>
+            <fieldset>
+                <legend>Select your gender and Hobbies</legend>
+                <label>Male <input type="radio" name="gender" id=""></label>
+                <label>Female <input type="radio" name="gender" id=""></label>
+                <hr>
+                <label>Exercise <input type="checkbox" name="hobbies" value="exercise"></label>
+                <label>Watch TV <input type="checkbox" name="hobbies" value="watch-tv"></label>
+                <label>Listen music <input type="checkbox" name="hobbies" value="listen-music"></label>
+                <label>Learn new things <input type="checkbox" name="hobbies" value="learn-new-things"></label>
+            </fieldset>
+            <label>
+                Additional Comments: <textarea id="comments" cols="30" rows="10"
+                    placeholder="I liked this survey becouse..."></textarea>
             </label>
-            <label id="number-label">
-                Enter a phone number (Optional): <input type="number" id="number" placeholder="11111111111" min="7" max="11">
-            </label>
-        </fieldset>
-        <label id="dropdown-label">
-            How do you agree with filling personal data in online surveys: 
-            <select name="" id="dropdown">
-                <option value="">Select one</option>
-                <option value="">Very agree</option>
-                <option value="">Somewhat agree</option>
-                <option value="">Don't agree</option>
-            </select>
-        </label>
-        <fieldset>
-            <legend>Select your gender and Hobbies</legend>
-            <label>Male <input type="radio" name="gender" id=""></label>
-            <label>Female </label><input type="radio" name="gender" id=""></label>
             <hr>
-            <label>Exercise <input type="checkbox" name="hobbies" value="exercise"></label>
-            <label>Watch TV <input type="checkbox" name="hobbies" value="watch-tv"></label>
-            <label>Listen music <input type="checkbox" name="hobbies" value="listen-music"></label>
-            <label>Learn new things <input type="checkbox" name="hobbies" value="learn-new-things"></label>
-        </fieldset>
-        <label>
-            Additional Comments: <textarea id="comments" cols="30" rows="10" placeholder="I liked this survey becouse..."></textarea>
-        </label>
-        <hr>
-        <input id="submit" type="submit" value="Submit Survey">
-    </form>
+            <input id="submit" type="submit" value="Submit Survey">
+        </form>
+    </div>
 </body>
 
 </html>
