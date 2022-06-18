@@ -13,7 +13,7 @@
     <div id="container">
         <h1 id="title">ingGGRM - Survey Form</h1>
         <p id="description">This survey will take a brief information of users around the world</p>
-        <form action="" id="survey-form">
+        <form action="https://register-demo.freecodecamp.org" id="survey-form">
             <fieldset>
                 <legend>Main Data</legend>
                 <label id="name-label">
@@ -38,19 +38,15 @@
             </label>
             <fieldset>
                 <legend>Select your gender and Hobbies</legend>
-                <label>Male <input type="radio" name="gender" id=""></label>
-                <label>Female <input type="radio" name="gender" id=""></label>
+                <label class="check">Male <input type="radio" name="gender" value="male"></label><label class="check">Female <input type="radio" name="gender" value="female"></label>
                 <hr>
-                <label>Exercise <input type="checkbox" name="hobbies" value="exercise"></label>
-                <label>Watch TV <input type="checkbox" name="hobbies" value="watch-tv"></label>
-                <label>Listen music <input type="checkbox" name="hobbies" value="listen-music"></label>
-                <label>Learn new things <input type="checkbox" name="hobbies" value="learn-new-things"></label>
+                <label class="check">Exercise <input type="checkbox" name="hobbies" value="exercise"></label><label class="check">Watch TV <input type="checkbox" name="hobbies" value="watch-tv"></label>
+                <label class="check">Listen music <input type="checkbox" name="hobbies" value="listen-music"></label><label class="check">Learn new things <input type="checkbox" name="hobbies" value="learn-new-things"></label>
             </fieldset>
-            <label>
+            <label id="comments-label">
                 Additional Comments: <textarea id="comments" cols="30" rows="10"
                     placeholder="I liked this survey becouse..."></textarea>
             </label>
-            <hr>
             <input id="submit" type="submit" value="Submit Survey">
         </form>
     </div>
