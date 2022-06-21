@@ -15,11 +15,13 @@
             flex-direction: column;
         }
         #container {
-            height: 90%;
+            height: 80%;
             background-color: #f1f1f15f;
             width: max(300px, 60%, 500px);
             padding: 10px;
             text-align: center;
+            overflow-y: scroll;
+            margin: auto;
         }
         h2 {margin: 0 auto 1em auto; font-size: 30px;}
         h1 {margin: 1em auto; color: rgb(2, 25, 68); font-size: 36px;}
@@ -37,6 +39,8 @@
             text-shadow: white 2px 2px 5px;
         }
         #footer {
+            width: 100%;
+            background-color: #1e253aa9;
             height: 10%;
             display: flex;
             justify-content: center;
@@ -45,6 +49,7 @@
             font-weight: 700;
             color: black;
             text-shadow: rgb(247, 223, 10) 2px 2px 5px, rgb(247, 223, 10) -2px -2px 5px;
+            margin-bottom: 0;
         }
     </style>
 </head>
@@ -68,6 +73,10 @@
         <div class="divider">
             <hr><span>PART TWO</span><hr>
         </div>
+        <h2>Practice Projects</h2>
+        <ul>
+            <li><a href="./rothko-painting/rothko-painting.html">Rothko Painting</a></li>
+        </ul>
     </div>
     <div id="footer">ingGGRM</div>
 </body>
