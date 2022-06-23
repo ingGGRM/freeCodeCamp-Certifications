@@ -9,9 +9,10 @@ body{
 }
 
 #main {
-    width: 95%;   
+    width: 95%;
+    min-width: 700px;
     margin: 10px auto;
-    padding: 10px 50px;
+    padding: 10px 50px 30px 50px;
     background-color: rgb(223, 219, 219);
 }
 
@@ -23,7 +24,10 @@ body{
 }
 
 #image {
-    width: 100%
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 #img-caption {
@@ -41,4 +45,27 @@ body{
     padding: 10px 0;
     background-color: white;
     border: 5px dashed gray;
+}
+
+#tribute-info {
+    text-align: justify;
+    margin: 20px;
+}
+
+#tribute-info > p {
+    margin-bottom: 10px;
+}
+
+main> :nth-child(4) {
+    text-align: center;
+    font-weight: bold;
+}
+
+#tribute-link {
+    text-decoration: none;
+    color: rgb(71, 71, 71);
+}
+
+#tribute-link:hover {
+    color: darkorange;
 }
