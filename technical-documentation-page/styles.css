@@ -1,0 +1,95 @@
+html {
+    box-sizing: border-box;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: inherit;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    background-color: rgb(216, 214, 214);
+    overflow: hidden;
+}
+
+#navbar {
+    width: 25%;
+    height: 100%;
+    float: left;
+    background-color: rgb(100, 100, 100);
+}
+
+#main-doc {
+    width: 75%;
+    height: 100%;
+    overflow-y: scroll;
+    padding: 30px;
+    border-left: 2px solid white;
+}
+
+@media (max-width: 768px) {
+    #navbar {
+        width: 300px;
+    }
+
+    #main-doc {
+        width: calc(100% - 300px);
+    }
+}
+
+@media (max-width: 1199px) and (min-width: 769px) {
+    #navbar {
+        width: 300px;
+    }
+
+    #main-doc {
+        width: calc(100% - 300px);
+    }
+}
+
+/* NavBar Elements */
+
+#navbar header {
+    height: 15%;
+    border-bottom: 3px double white;
+    color: yellow;
+    text-shadow: 0 0 10px rgb(255, 255, 255);
+    font-weight: 700;
+    padding-left: 30px;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    font-size: 50px;
+}
+
+#navbar div {
+    height: calc(100% - 50px);
+    overflow-y: scroll;
+}
+
+#navbar div a{
+    height: 15%;
+    display: block;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding-left: 30px;
+    text-decoration: none;
+    font-size: 24px;
+    border-bottom: 3px double white;
+}
+
+#navbar div a:hover{
+    background-color: gray;
+}
+
+#navbar div a:visited,
+#navbar div a:active,
+#navbar div a {
+    color: rgb(255, 255, 255);
+}
+
+/* MainDoc Elements */
