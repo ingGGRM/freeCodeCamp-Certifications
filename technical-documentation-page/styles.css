@@ -1,11 +1,18 @@
 html {
     box-sizing: border-box;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: inherit;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    * {
+      scroll-behavior: smooth;
+    }
 }
 
 body {
@@ -93,3 +100,35 @@ body {
 }
 
 /* MainDoc Elements */
+
+.main-section:not(:first-of-type) header { margin: 25px 0 10px 0; }
+.main-section:first-of-type header { margin: 0 0 10px 0; }
+.main-section header {
+    font-size: 36px;
+}
+
+.main-section p {
+    text-align: justify;
+}
+
+.main-section code {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.main-section code img {
+    max-width: 60%;
+}
+
+#main-doc a:visited,
+#main-doc a:active,
+#main-doc a {
+    color: rgb(105, 86, 32);
+    text-decoration: none;
+}
+
+.main-section ul li {
+    margin-left: 2em;
+}
