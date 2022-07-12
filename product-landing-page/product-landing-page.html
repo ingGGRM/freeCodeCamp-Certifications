@@ -17,9 +17,9 @@
             <h2 id="header-text">ingGGRM Productions</h2>
         </div>
         <nav id="nav-bar">
-            <a href="#title-section" id="nav-link">About</a>
-            <a href="#video-section" id="nav-link">Product</a>
-            <a href="#form-section" id="nav-link">Join Us</a>
+            <a href="#title-section" class="nav-link">About</a>
+            <a href="#video-section" class="nav-link">Product</a>
+            <a href="#form-section" class="nav-link">Join Us</a>
         </nav>
     </header>
     <main>
@@ -48,7 +48,8 @@
         <section id="form-section">
             <h2 id="form-title">Join Us and get passed!!!</h2>
             <form action="https://www.freecodecamp.com/email-submit" id="form">
-                <input type="email" id="email" placeholder="example@example.com">
+                <label for="email">Put your E-mail here: </label>
+                <input type="email" id="email" placeholder="example@example.com" name="email">
                 <input type="submit" id="submit" value="Join Us">
             </form>
         </section>
