@@ -1,0 +1,126 @@
+@media (prefers-reduced-motion: no-preference) {
+    * {
+        scroll-behavior: smooth;
+    }
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+:root {
+    /* HEADER vars*/
+    --header-font-color: white;
+    --header-background-color: rgb(29, 44, 77);
+
+    /* WELCOME SECTION vars */
+    --welcome-title-color: rgb(29, 44, 77);
+    --welcome-subtitle-color: rgb(228, 57, 0);
+    --welcome-title-size: 50px;
+    --welcome-subtitle-size: 24px;
+}
+
+/**************************/
+/* HEADER Styling Section */
+/**************************/
+header {
+    width: 100%;
+    height: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    background-color: var(--header-background-color);
+    position: absolute;
+    top: 0;
+}
+
+/* HEADER LOGO */
+#logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+}
+
+header img {
+    width: 40px;
+    height: auto;
+    border-radius: 50%;
+    display: inline-block;
+    margin-left: 5px;
+    box-shadow: 0 0 10px white;
+}
+
+header h1 {
+    display: inline-block;
+    color: var(--header-font-color);
+}
+
+/* HEADER NAVBAR */
+#navbar ul {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#navbar ul li {
+    width: 150px;
+    height: 100%;
+    padding: 6px;
+    list-style-type: none;
+    text-align: center;
+    font-weight: bold;
+    font-variant: small-caps;
+}
+#navbar ul li:hover {
+    background-color: gray;
+}
+
+#navbar ul li a {
+    text-decoration: none;
+    color: var(--header-font-color);
+    font-size: 32px;
+}
+
+/***********************************/
+/* WELCOME SECTION Styling Section */
+/***********************************/
+#welcome-section {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#welcome-section h1 {
+    text-align: center;
+    font-size: calc(var(--welcome-title-size) - calc(var(--welcome-title-size) * 0.2));
+    color: rgb(105, 104, 104);
+}
+
+#welcome-section h1 span {
+    color: var(--welcome-title-color);
+    font-size: var(--welcome-title-size);
+}
+
+#welcome-section ul {
+    display: flex;
+}
+
+#welcome-section ul li {
+    font-size: var(--welcome-subtitle-size);
+    color: var(--welcome-subtitle-color);
+    font-weight: bold;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#welcome-section ul li:not(:last-of-type)::after {
+    content: "|";
+    margin: 0 10px;
+}
