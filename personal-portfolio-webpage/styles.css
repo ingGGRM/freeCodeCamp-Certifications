@@ -171,3 +171,40 @@ header h1 {
     font-weight: bold;
     font-size: 20px;
 }
+
+/***********************************/
+/* CONTACT SECTION Styling Section */
+/***********************************/
+#contact {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+}
+
+#contact h1 {
+    font-size: 50px;
+}
+
+.fab {
+    font-size: 32px;
+    color: var(--header-background-color);
+    margin-right: 10px;
+}
+
+#contact div a {
+    text-decoration: none;
+    color: var(--header-background-color);
+    font-size: 24px;
+    margin: 0 20px;
+}
+
+#contact div a .fab:hover {
+    color: orangered;
+    transform: scale(1.2);
+    transition: 500ms;
+    transform-style: flat;
+}
