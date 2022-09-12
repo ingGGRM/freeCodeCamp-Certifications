@@ -2,8 +2,16 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
-const JSX = <div id="quote-box" className="">
+let author = '';
+let quote = '';
 
+const JSX = <div id="quote-box">
+				<h2 className="text"><li className="fas fa-quote-left"></li>{quote}</h2>
+				<h4 className="author">{author}</h4>
+				<div className="btn-row">
+					<button className="btn-twitter"><li className="fab fa-twitter"></li></button>
+					<button className="btn-new-quote">Get New Quote</button>
+				</div>
 			</div>;
 
 class App extends React.Component {
@@ -11,6 +19,8 @@ class App extends React.Component {
 		super(props);
 
 		this.state = {};
+
+		//this.getQuote = this.getQuote.bind(this);
 	}
 
 	render() {
