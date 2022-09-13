@@ -389,9 +389,9 @@ class App extends React.Component {
 			<div id="quote-box">
 				<div className="text-box">
 					<li className="quote-icon fas fa-quote-left"></li>
-					<span className="text">{this.state.quote}</span>
+					<span id="text">{this.state.quote}</span>
 				</div>
-				<span className="author">Author: {this.state.author}</span>
+				<span id="author">Author: {this.state.author}</span>
 				<div className="btn-row">
 					<a id="tweet-quote" href={this.state.tweetURL} target="_blank" rel="noreferrer">
 						<li className="fab fa-twitter"></li>
