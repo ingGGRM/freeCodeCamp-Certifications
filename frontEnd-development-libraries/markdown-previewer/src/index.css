@@ -58,8 +58,7 @@ body {
 	resize: none;
 	padding: 10px;
 	color: darkslategrey;
-	font-weight: bold;
-	font-size: 16px;
+	font-size: 14px;
 }
 
 #preview {
@@ -70,5 +69,10 @@ body {
 	left: 5px;
 	overflow-y: auto;
 	color: black;
-	font-size: 16px;
+	font-size: 14px;
+	font-weight: 100;
+}
+
+#preview * {
+	margin-bottom: 10px;
 }

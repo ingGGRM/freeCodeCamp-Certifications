@@ -3,11 +3,27 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { marked } from 'marked'; // Imported marked library propperly
 
-class App extends React.Component {
+const editorPlaceholder = `# Hello and Welcome to the Markdown Interpreter
+**FrontEnd Development Libraries Project** _#2_
+
+## made by: ingGGRM <img align="center" width="50" src="https://avatars.githubusercontent.com/u/61787544?v=4" style="border-radius:50%"/>
+
+> \`for the\` [FreeCodeCamp](https://www.freecodecamp.org/) \`Community\`!
+* Hello.
+  * Hola.
+    * Bonjour.
+
+\`\`\`
+Just type some markdown coded text here and see what happens!!!
+\`\`\``;
+marked.setOptions({
+	breaks: true,
+});
+						class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			input: "",
+			input: editorPlaceholder,
 		};
 
 		this.inputHandler = this.inputHandler.bind(this);
@@ -20,16 +36,12 @@ class App extends React.Component {
 	}
 
 	render() {
-		const editorPlaceholder = "Hello and Welcome to the Markdown Interpreter\n\n\n" +
-						"made by: ingGGRM\n\n\n" +
-						"for the FreeCodeCamp Community\n\n\n" + 
-						"JUST TYPE SOME MARKDOWN TEXT HERE";
-		const editorStyle = {textAlign: (this.state.input === "") ? "center" : "left"}
+		//const editorStyle = {textAlign: (this.state.input === "") ? "center" : "left"}
 
 		return (
 			<div className="App">
 				<div id="input-container">
-					<textarea id="editor" style ={editorStyle} value={this.state.input} onChange={this.inputHandler} placeholder={editorPlaceholder}></textarea>
+					<textarea id="editor" value={this.state.input} onChange={this.inputHandler}></textarea>
 				</div>
 				<div id="output-container">PREVIEW
 					<div id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.input)}}></div>
