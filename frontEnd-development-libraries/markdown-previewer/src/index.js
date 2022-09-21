@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
+let marked = require("marked"); //import marked library
 
 class App extends React.Component {
 	constructor(props) {
@@ -21,8 +22,14 @@ class App extends React.Component {
 	render() {
 		return (
 			<div className="App">
-				<textarea id="editor" onChange={this.inputHandler}></textarea>
-				<div id="preview">{this.state.input}</div>
+				<textarea id="editor" value={this.state.input} onChange={this.inputHandler}></textarea>
+				<div id="preview">
+					{/*
+					dangerouslySetInnerHTML={{
+                  __html: marked(this.state.input),
+				  }}
+				*/}
+				</div>
 			</div>
 		);
 	}
