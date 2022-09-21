@@ -26,9 +26,36 @@ body {
 	gap: 5%;
 }
 
-#editor {
+#input-container {
 	height: 40%;
 	width: 50%;
+	padding: 10px;
+	border: 1px solid black;
+}
+
+#output-container {
+	height: 50%;
+	width: 80%;
+	border: 3px solid black;
+	border-radius: 10px;
+	background-color: rgb(159, 212, 233);
+	color: black;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	color: gray;
+	font-size: 40px;
+	font-weight: bold;
+}
+
+#editor {
+	height: 100%;
+	width: 100%;
+	resize: none;
 	padding: 10px;
 	color: darkslategrey;
 	font-weight: bold;
@@ -36,12 +63,12 @@ body {
 }
 
 #preview {
-	height: 50%;
-	width: 80%;
-	border: 3px solid black;
-	border-radius: 10px;
-	background-color: white;
-	color: black;
-	padding: 10px;
+	height: calc(100% - 10px);
+	width: calc(100% - 10px);
+	position: absolute;
+	top: 5px;
+	left: 5px;
 	overflow-y: auto;
+	color: black;
+	font-size: 16px;
 }

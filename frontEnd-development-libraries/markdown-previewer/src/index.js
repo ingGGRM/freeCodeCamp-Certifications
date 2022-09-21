@@ -7,7 +7,7 @@ class App extends React.Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			input: "# Hello",
+			input: "",
 		};
 
 		this.inputHandler = this.inputHandler.bind(this);
@@ -20,10 +20,19 @@ class App extends React.Component {
 	}
 
 	render() {
+		const editorPlaceholder = "Hello and Welcome to the Markdown Interpreter\n\n\n" +
+						"made by: ingGGRM\n\n\n" +
+						"for the FreeCodeCamp Community\n\n\n" + 
+						"JUST TYPE SOME MARKDOWN TEXT HERE";
+		const editorStyle = {textAlign: (this.state.input === "") ? "center" : "left"}
+
 		return (
 			<div className="App">
-				<textarea id="editor" value={this.state.input} onChange={this.inputHandler}></textarea>
-				<div id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.input)}}>
+				<div id="input-container">
+					<textarea id="editor" style ={editorStyle} value={this.state.input} onChange={this.inputHandler} placeholder={editorPlaceholder}></textarea>
+				</div>
+				<div id="output-container">PREVIEW
+					<div id="preview" dangerouslySetInnerHTML={{__html: marked(this.state.input)}}></div>
 				</div>
 			</div>	
 		);
