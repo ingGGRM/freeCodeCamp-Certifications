@@ -24,3 +24,10 @@ body {
 	min-width: 600px;
 	background-color: green;
 }
+
+.drum-pad {
+	height: 50px;
+	width: 50px;
+	background-color: gray;
+	border: 1px solid white;
+}
