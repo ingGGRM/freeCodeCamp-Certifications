@@ -68,7 +68,10 @@ class App extends React.Component {
 	render() {
 		return (
 			<div id="drum-machine" onKeyDown={this.keyPressHandler} tabIndex="-1" >
-				<h1>This is the begining</h1>
+				<h1 id="title">This is the begining</h1>
+				<div id="side-panel">
+					<div id="display">{this.state.displayMsg}</div>
+				</div>
 				<div id="pad-container">
 					{
 						this.sounds.map(snd => <button className="drum-pad" onClick={this.clickHandler} value={snd.keyCode} >{snd.name}</button>)
