@@ -2,44 +2,42 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 
+//*****************************************/
+import plates_1 from "./sounds/Kick_n_Hat.mp3";
+import plates_2 from "./sounds/Cev_H2.mp3";
+import plates_3 from "./sounds/Dsc_Oh.mp3";
+import kick from "./sounds/RP4_KICK_1.mp3";
+import heater1 from "./sounds/Heater-1.mp3";
+import heater2 from "./sounds/Heater-2.mp3";
+import heater3 from "./sounds/Heater-3.mp3";
+import heater4 from "./sounds/Heater-4_1.mp3";
+import heater5 from "./sounds/Heater-6.mp3";
+//*****************************************/
+
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {}
+		
+		this.state = {};
+
+		this.sounds = {
+			
+		};
 
 		this.playSound = this.playSound.bind(this);
 	}
 
 	playSound(key) {
-		console.log(key);
+		console.log("You've Clicked It!!!");
+
 	}
 
 	render() {
-		const soundArr = [
-			{file:"./sounds/RP4_KICK_1.mp3", key: 'q'},
-			{file:"./sounds/Cev_H2.mp3", key: 'w'},
-			{file:"./sounds/Dsc_Oh.mp3", key: 'e'},
-			{file:"./sounds/Heater-6.mp3", key: 'a'},
-			{file:"./sounds/Kick_n_Hat.mp3", key: 's'},
-			{file:"./sounds/Heater-4_1.mp3", key: 'd'},
-			{file:"./sounds/Heater-3.mp3", key: 'z'},
-			{file:"./sounds/Heater-2.mp3", key: 'x'},
-			{file:"./sounds/Heater-1.mp3", key: 'c'}
-		];
-
-		function soundPadGenerator(soundPad) {
-			return (
-				<button className="drum-pad" id={soundPad.file.slice(9,-4)} onClick={() => this.playSound(soundPad.key)} >
-					{soundPad.key.toUpperCase()}
-				</button>
-			)
-		}
 
 		return (
 			<div id="drum-machine">
 				<h1>This is the begining</h1>
 				<div id="pad-container">
-					{soundArr.map(soundPad => soundPadGenerator(soundPad))}
 				</div>
 			</div>
 		);
