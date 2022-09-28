@@ -36,15 +36,14 @@ class App extends React.Component {
 
 		this.keyPressHandler = this.keyPressHandler.bind(this);
 		this.clickHandler = this.clickHandler.bind(this);
+		this.player = this.player.bind(this);
 	}
 
 	keyPressHandler = (event) => {
 		console.log(event.keyCode);
-		this.sounds.forEach(snd => {
-			if(snd.keyCode == event.keyCode) {
-				console.log(`Playing: ${snd.name}`);
-				snd.sound.currentTime = 0;
-				snd.sound.play();
+		this.sounds.forEach(sound => {
+			if(sound.keyCode === event.keyCode) {
+				this.player(sound);
 				return;
 			}
 		});
@@ -54,11 +53,19 @@ class App extends React.Component {
 		console.log("You've Clicked It!!!");
 	}
 
+	player(snd) {
+		console.log(`Playing: ${snd.name}`);
+		snd.sound.currentTime = 0;
+		snd.sound.play();
+	}
+
 	render() {
 		return (
 			<div id="drum-machine" onKeyDown={this.keyPressHandler} tabIndex="-1" >
 				<h1>This is the begining</h1>
-				<div id="pad-container"></div>
+				<div id="pad-container">
+					
+				</div>
 			</div>
 		);
 	}
