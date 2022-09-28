@@ -49,8 +49,14 @@ class App extends React.Component {
 		});
 	}
 
-	clickHandler(key) {
-		console.log("You've Clicked It!!!");
+	clickHandler(event) {
+		console.log(event.target.value);
+		this.sounds.forEach(sound => {
+			if(sound.keyCode === Number(event.target.value)) {
+				this.player(sound);
+				return;
+			}
+		});
 	}
 
 	player(snd) {
@@ -64,7 +70,9 @@ class App extends React.Component {
 			<div id="drum-machine" onKeyDown={this.keyPressHandler} tabIndex="-1" >
 				<h1>This is the begining</h1>
 				<div id="pad-container">
-					
+					{
+						this.sounds.map(snd => <button className="drum-pad" onClick={this.clickHandler} value={snd.keyCode} >{snd.name}</button>)
+					}
 				</div>
 			</div>
 		);
