@@ -61,6 +61,11 @@ class App extends React.Component {
 
 	player(snd) {
 		console.log(`Playing: ${snd.name}`);
+
+		this.setState(state => ({
+			displayMsg: `Playing: ${snd.name}`
+		}));
+
 		snd.sound.currentTime = 0;
 		snd.sound.play();
 	}
@@ -74,7 +79,7 @@ class App extends React.Component {
 				</div>
 				<div id="pad-container">
 					{
-						this.sounds.map(snd => <button className="drum-pad" onClick={this.clickHandler} value={snd.keyCode} >{snd.name}</button>)
+						this.sounds.map(snd => <button className="drum-pad" onClick={this.clickHandler} value={snd.keyCode} >{snd.name} <br /> <spam>{snd.keySymbol}</spam></button>)
 					}
 				</div>
 			</div>

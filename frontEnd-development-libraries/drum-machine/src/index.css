@@ -54,6 +54,17 @@ body {
 	font-weight: bold;
 	color: rgb(47, 90, 124);
 	text-shadow: 0 0 5px rgb(255, 255, 255);
+	text-transform: lowercase;
+	font-variant: small-caps;
+}
+
+.drum-pad spam {
+	text-transform: uppercase;
+	color: orangered;
+}
+.drum-pad:hover spam {
+	color: rgb(33, 228, 15);
+	text-shadow: 0 0 5px black;
 }
 
 .drum-pad:hover {
@@ -91,4 +102,6 @@ body {
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
+	font-size: 1.5em;
+	text-shadow: 0 0 3px orangered;
 }
