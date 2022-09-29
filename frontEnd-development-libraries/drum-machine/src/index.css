@@ -54,23 +54,16 @@ body {
 	font-weight: bold;
 	color: rgb(47, 90, 124);
 	text-shadow: 0 0 5px rgb(255, 255, 255);
-	text-transform: lowercase;
+	text-transform: lowercase; /* FREECODECAMP DOESN'T PASS TESTS WITH LAST 2 LINES */
 	font-variant: small-caps;
-}
-
-.drum-pad spam {
-	text-transform: uppercase;
-	color: orangered;
-}
-.drum-pad:hover spam {
-	color: rgb(33, 228, 15);
-	text-shadow: 0 0 5px black;
 }
 
 .drum-pad:hover {
 	color: orangered;
 	box-shadow: 0 0 30px orangered;
 	transition-delay: 50ms;
+	color: green;
+	text-shadow: 0 0 5px white;
 }
 
 #title {
