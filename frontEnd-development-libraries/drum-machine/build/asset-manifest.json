@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "./static/css/main.fcd5fb65.css",
+    "main.js": "./static/js/main.19515bc7.js",
+    "static/media/RP4_KICK_1.mp3": "./static/media/RP4_KICK_1.72881f4bf80d341da208.mp3",
+    "static/media/Heater-1.mp3": "./static/media/Heater-1.cb8d95b6caf027812d3b.mp3",
+    "static/media/Heater-2.mp3": "./static/media/Heater-2.4ed25e5b07da91b794d7.mp3",
+    "static/media/Heater-3.mp3": "./static/media/Heater-3.4c4d3fd017dfed721765.mp3",
+    "static/media/Heater-4_1.mp3": "./static/media/Heater-4_1.0c29815eb40bbe7d4d7b.mp3",
+    "static/media/Dsc_Oh.mp3": "./static/media/Dsc_Oh.5f33c02936f6ec6f8199.mp3",
+    "static/media/Heater-6.mp3": "./static/media/Heater-6.faf5d12a1a4a7ffacf09.mp3",
+    "static/media/Kick_n_Hat.mp3": "./static/media/Kick_n_Hat.6dc44dc15fca60d9d594.mp3",
+    "static/media/Cev_H2.mp3": "./static/media/Cev_H2.0b159bd307a31937b138.mp3",
+    "index.html": "./index.html",
+    "main.fcd5fb65.css.map": "./static/css/main.fcd5fb65.css.map",
+    "main.19515bc7.js.map": "./static/js/main.19515bc7.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.fcd5fb65.css",
+    "static/js/main.19515bc7.js"
+  ]
+}
