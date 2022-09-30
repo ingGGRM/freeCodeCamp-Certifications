@@ -48,7 +48,7 @@ class App extends React.Component {
 				<div id="display" >{this.state.result}</div>
 				<div id="keys">
 					{this.keys.map(key => (
-					<KeyCreator key={key} writeToDisplay={this.displayHandler} />
+					<KeyCreator symbol={key.symbol} ident={key.id} writeToDisplay={this.displayHandler} />
 					))}
 				</div>
 			</div>
@@ -64,11 +64,11 @@ class KeyCreator extends React.Component {
 	}
 
 	clickHandler() {
-
+		this.props.writeToDisplay(this.props.symbol);
 	}
 
 	render() {
-		return <button></button>
+		return <button className="key" id={this.props.ident} onClick={this.clickHandler} >{this.props.symbol}</button>
 	}
 }
 
