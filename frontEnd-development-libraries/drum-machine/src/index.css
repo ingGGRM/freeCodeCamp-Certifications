@@ -17,11 +17,17 @@ body {
 	justify-content: center;
 }
 
+#root {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 #drum-machine {
 	height: 50%;
-	min-height: 300px;
 	width: 60%;
-	min-width: 600px;
+	max-width: 600px;
+	max-height: 400px;
 	background-color: cornflowerblue;
 	display: grid;
 	grid-template-columns: 1fr;
