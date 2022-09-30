@@ -28,27 +28,28 @@ class App extends React.Component {
 
 		this.state = {
 			result: '0',
-			noData: true
+			num: '0',
+			operator: ''			
 		};
 
-		this.displayHandler = this.displayHandler.bind(this);
+		this.clickHandler = this.clickHandler.bind(this);
 	}
 
-	displayHandler(data) {
+	clickHandler(data) {
 		this.setState(state => ({
-			result: (this.state.noData) ? data : this.state.result + data
+			result: data
 		}));
 	}
 
 	render() {
 		return (
 			<div id="calculator">
-				<spam className="header" >fx = ingGGRM</spam>
-				<spam className="header" >JavaScript Calculator</spam>
+				<span className="header" >fx = ingGGRM</span>
+				<span className="header" >JavaScript Calculator</span>
 				<div id="display" >{this.state.result}</div>
 				<div id="keys">
 					{this.keys.map(key => (
-					<KeyCreator symbol={key.symbol} ident={key.id} writeToDisplay={this.displayHandler} />
+					<KeyCreator symbol={key.symbol} ident={key.id} stateChanger={this.clickHandler} />
 					))}
 				</div>
 			</div>
@@ -64,7 +65,7 @@ class KeyCreator extends React.Component {
 	}
 
 	clickHandler() {
-		this.props.writeToDisplay(this.props.symbol);
+		this.props.stateChanger(this.props.symbol);
 	}
 
 	render() {
