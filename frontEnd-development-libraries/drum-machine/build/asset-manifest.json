@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "./static/css/main.51702099.css",
+    "main.css": "./static/css/main.8c32d60f.css",
     "main.js": "./static/js/main.19515bc7.js",
     "static/media/RP4_KICK_1.mp3": "./static/media/RP4_KICK_1.72881f4bf80d341da208.mp3",
     "static/media/Heater-1.mp3": "./static/media/Heater-1.cb8d95b6caf027812d3b.mp3",
@@ -12,11 +12,11 @@
     "static/media/Kick_n_Hat.mp3": "./static/media/Kick_n_Hat.6dc44dc15fca60d9d594.mp3",
     "static/media/Cev_H2.mp3": "./static/media/Cev_H2.0b159bd307a31937b138.mp3",
     "index.html": "./index.html",
-    "main.51702099.css.map": "./static/css/main.51702099.css.map",
+    "main.8c32d60f.css.map": "./static/css/main.8c32d60f.css.map",
     "main.19515bc7.js.map": "./static/js/main.19515bc7.js.map"
   },
   "entrypoints": [
-    "static/css/main.51702099.css",
+    "static/css/main.8c32d60f.css",
     "static/js/main.19515bc7.js"
   ]
 }
