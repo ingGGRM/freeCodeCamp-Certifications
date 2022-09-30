@@ -1,4 +1,4 @@
-@import url('http://fonts.cdnfonts.com/css/scientific-calculator-lcd');
+@import url("http://fonts.cdnfonts.com/css/scientific-calculator-lcd");
 
 * {
 	box-sizing: border-box;
@@ -32,7 +32,7 @@ body {
 	height: calc(100vh - 20px);
 	width: calc(100vw - 20px);
 	min-width: 240px;
-	min-height: 360px;/*
+	min-height: 360px; /*
 	max-width: 450px;
 	max-height: 500px;*/
 	background-color: rgb(55, 67, 100);
@@ -51,7 +51,7 @@ body {
 .header:first-of-type {
 	color: brown;
 	text-align: center;
-	font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+	font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
 	font-size: 20px;
 	text-align: right;
 	text-shadow: 0 0 5px black;
@@ -59,7 +59,7 @@ body {
 
 .header:last-of-type {
 	text-align: center;
-	font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+	font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
 	font-size: 200%;
 	text-shadow: 0 0 5px white;
 	color: black;
@@ -72,7 +72,7 @@ body {
 	border-radius: 5px;
 	box-shadow: inset 2px 2px black, inset -2px -2px black;
 	background-color: rgb(165, 165, 148);
-	font-family: 'Scientific Calculator LCD', sans-serif;
+	font-family: "Scientific Calculator LCD", sans-serif;
 	color: black;
 	text-align: right;
 	font-size: 28px;
@@ -84,7 +84,6 @@ body {
 #keys {
 	margin-top: 10px;
 	flex: 1 1 auto;
-	border: 1px solid red;
 
 	display: grid;
 	grid-template-columns: repeat(5, 1fr);
