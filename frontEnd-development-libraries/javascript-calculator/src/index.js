@@ -14,7 +14,7 @@ class App extends React.Component {
 			{ symbol: "4", id: "four", keyCode: 100 },
 			{ symbol: "5", id: "five", keyCode: 101 },
 			{ symbol: "6", id: "six", keyCode: 102 },
-			{ symbol: "X", id: "multiply", keyCode: 106 },
+			{ symbol: "x", id: "multiply", keyCode: 106 },
 			{ symbol: "/", id: "divide", keyCode: 111 },
 			{ symbol: "1", id: "one", keyCode: 97 },
 			{ symbol: "2", id: "two", keyCode: 98 },
@@ -27,10 +27,10 @@ class App extends React.Component {
 		];
 
 		this.state = {
-			result: 0.0,
+			result: '0',
 			num1: 0.0,
 			num2: 0.0,
-			operator: "",
+			operator: ""
 		};
 
 		this.keypressHandler = this.keypressHandler.bind(this);
@@ -55,13 +55,33 @@ class App extends React.Component {
 	}
 
 	compute(pressed) {
-		this.keys.map((key) => {
+		
+		const pressedKeySymbol = this.keys.filter((key) => {
 			if (key.symbol === pressed || key.keyCode === pressed) {
-				console.log(key.symbol);
+				return key.symbol;
 			}
-		});
+		})[0].symbol;
+		
+		console.log(pressedKeySymbol);
 
-		return {};
+		if(pressedKeySymbol === 'AC') {
+			this.setState(state => ({
+				result: '0',
+				num1: 0.0,
+				num2: 0.0,
+				operator: ""
+			}));
+		} else if(this.state.result === '0' && !isNaN(Number(pressedKeySymbol))) {
+			console.log('yes');
+			this.setState(state => ({
+				result: pressedKeySymbol
+			}));
+		} else if(this.state.result !== '0' && !isNaN(Number(pressedKeySymbol))) {
+			console.log('yes');
+			this.setState(state => ({
+				result: this.state.result + pressedKeySymbol
+			}));
+		}
 	}
 
 	render() {
