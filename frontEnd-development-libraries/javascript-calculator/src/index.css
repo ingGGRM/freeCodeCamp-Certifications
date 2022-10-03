@@ -32,13 +32,15 @@ body {
 	height: calc(100vh - 20px);
 	width: calc(100vw - 20px);
 	min-width: 240px;
-	min-height: 360px; /*
+	min-height: 360px;
 	max-width: 450px;
-	max-height: 500px;*/
+	max-height: 500px;
 	background-color: rgb(55, 67, 100);
 	padding: 10px;
 	display: flex;
 	flex-flow: column;
+	border-radius: 10px;
+	box-shadow: 5px 5px 10px rgb(40, 49, 88);
 }
 
 .header {
