@@ -99,6 +99,11 @@ body {
 	border-radius: 20px;
 }
 
+.key:hover {
+	box-shadow: inset 5px 5px 10px rgb(243, 202, 20),
+		inset -5px -5px 10px rgb(243, 202, 20);
+}
+
 #clear {
 	grid-column: span 2;
 }

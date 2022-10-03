@@ -27,8 +27,9 @@ class App extends React.Component {
 		];
 
 		this.state = {
-			result: "0",
-			num: "0",
+			result: 0.0,
+			num1: 0.0,
+			num2: 0.0,
 			operator: "",
 		};
 
@@ -66,9 +67,9 @@ class App extends React.Component {
 	render() {
 		return (
 			<div id="calculator">
-				<span className="header">fx = ingGGRM</span>
+				<span className="header">f<sub>(X)</sub> = ingGGRM</span>
 				<span className="header">JavaScript Calculator</span>
-				<div id="display">{this.state.result}</div>
+				<div id="display">{String(this.state.result)}</div>
 				<div id="keys">
 					{this.keys.map((key) => (
 						<KeyCreator
