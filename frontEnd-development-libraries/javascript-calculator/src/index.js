@@ -30,12 +30,14 @@ class App extends React.Component {
 			result: '0',
 			num1: 0.0,
 			num2: 0.0,
-			operator: ""
+			operator: "",
+			concat: false
 		};
 
 		this.keypressHandler = this.keypressHandler.bind(this);
 		this.clickHandler = this.clickHandler.bind(this);
 		this.compute = this.compute.bind(this);
+		this.operate = this.operate.bind(this);
 	}
 
 	componentDidMount() {
@@ -62,26 +64,85 @@ class App extends React.Component {
 			}
 		})[0].symbol;
 		
-		console.log(pressedKeySymbol);
+		//console.log(pressedKeySymbol);
 
 		if(pressedKeySymbol === 'AC') {
 			this.setState(state => ({
 				result: '0',
 				num1: 0.0,
 				num2: 0.0,
-				operator: ""
+				operator: "",
+				concat: false
 			}));
-		} else if(this.state.result === '0' && !isNaN(Number(pressedKeySymbol))) {
-			console.log('yes');
+		} else if(['+', '-', 'x', '/'].includes(pressedKeySymbol)) {
 			this.setState(state => ({
-				result: pressedKeySymbol
+				num1: this.state.result,
+				operator: pressedKeySymbol,
+				concat: false
 			}));
-		} else if(this.state.result !== '0' && !isNaN(Number(pressedKeySymbol))) {
-			console.log('yes');
-			this.setState(state => ({
-				result: this.state.result + pressedKeySymbol
-			}));
+		} else if(pressedKeySymbol === '.') {
+			if(!this.state.result.includes('.')) {
+				this.setState(state => ({
+					result: this.state.result + pressedKeySymbol,
+					concat: true
+				}));
+			}
+		} else if(!this.state.operator && !isNaN(Number(pressedKeySymbol))) {
+			if(!this.state.concat) {
+				this.setState(state => ({
+					result: pressedKeySymbol,
+					concat: true
+				}));
+			} else {
+				this.setState(state => ({
+					result: this.state.result + pressedKeySymbol
+				}));
+			}
+		} else if(this.state.operator && !isNaN(Number(pressedKeySymbol))) {
+			if(!this.state.concat) {
+				this.setState(state => ({
+					result: pressedKeySymbol,
+					concat: true
+				}));
+			} else {
+				this.setState(state => ({
+					result: this.state.result + pressedKeySymbol
+				}));
+			}
+		} else if(pressedKeySymbol === '=') {
+			this.setState({
+					num2: this.state.result,
+			}, this.operate());
 		}
+	}
+
+	operate() {
+		let res;
+
+		switch(this.state.operator) {
+			case '+':
+				res = this.state.num1 + this.state.num2;
+				break;
+			case '-':
+				res = this.state.num1 - this.state.num2;
+				break;
+			case 'x':
+				res = this.state.num1 * this.state.num2;
+				break;
+			case '/':
+				res = this.state.num1 / this.state.num2;
+				break;
+			default:
+				break;
+		}
+		console.log(res);
+		this.setState(state => ({
+			result: res,
+			num1: 0.0,
+			num2: 0.0,
+			operator: '',
+			concat: false
+		}));
 	}
 
 	render() {
