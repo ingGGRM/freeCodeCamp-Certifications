@@ -27,17 +27,19 @@ class App extends React.Component {
 		];
 
 		this.state = {
-			result: '0',
+			result: "0",
 			num1: 0.0,
-			num2: 0.0,
 			operator: "",
-			concat: false
+			concat: false,
+			dotPermit: true,
+			clean: true,
 		};
 
 		this.keypressHandler = this.keypressHandler.bind(this);
-		this.clickHandler = this.clickHandler.bind(this);
-		this.compute = this.compute.bind(this);
+		this.buttonClickHandler = this.buttonClickHandler.bind(this);
+		this.computeKeys = this.computeKeys.bind(this);
 		this.operate = this.operate.bind(this);
+		this.clearAll = this.clearAll.bind(this);
 	}
 
 	componentDidMount() {
@@ -49,106 +51,174 @@ class App extends React.Component {
 	}
 
 	keypressHandler(e) {
-		this.setState((state) => this.compute(e.keyCode));
+		console.log(
+			this.keys.filter((key) => key.keyCode === e.keyCode)[0].symbol
+		);
+		//this.setState((state) => this.compute(e.keyCode));
 	}
 
-	clickHandler(event) {
-		this.setState((state) => this.compute(event));
+	buttonClickHandler(event) {
+		//console.log(event);
+		this.setState((state) => this.computeKeys(event));
+		console.log("Clicked!!!");
 	}
 
-	compute(pressed) {
-		
-		const pressedKeySymbol = this.keys.filter((key) => {
-			if (key.symbol === pressed || key.keyCode === pressed) {
-				return key.symbol;
-			}
-		})[0].symbol;
-		
-		//console.log(pressedKeySymbol);
+	computeKeys(pressed) {
+		//const pressedKeySymbol = this.keys.filter((key) => (key.symbol === pressed || key.keyCode === pressed))[0].symbol;
 
-		if(pressedKeySymbol === 'AC') {
-			this.setState(state => ({
-				result: '0',
-				num1: 0.0,
-				num2: 0.0,
-				operator: "",
-				concat: false
-			}));
-		} else if(['+', '-', 'x', '/'].includes(pressedKeySymbol)) {
-			this.setState(state => ({
-				num1: this.state.result,
-				operator: pressedKeySymbol,
-				concat: false
-			}));
-		} else if(pressedKeySymbol === '.') {
-			if(!this.state.result.includes('.')) {
-				this.setState(state => ({
-					result: this.state.result + pressedKeySymbol,
-					concat: true
-				}));
-			}
-		} else if(!this.state.operator && !isNaN(Number(pressedKeySymbol))) {
-			if(!this.state.concat) {
-				this.setState(state => ({
-					result: pressedKeySymbol,
-					concat: true
-				}));
+		//console.log(pressed);
+
+		if (["+", "-", "x", "/"].includes(pressed)) {
+			if (this.state.clean) {
+				return pressed === "-"
+					? {
+							result: this.state.result.includes(pressed)
+								? this.state.result.replace(pressed, "0")
+								: pressed,
+							concat: true,
+					  }
+					: {
+							num1: Number(this.state.result),
+							operator: pressed,
+							concat: false,
+							clean: true,
+					  };
 			} else {
-				this.setState(state => ({
-					result: this.state.result + pressedKeySymbol
-				}));
+				return this.state.operator !== ""
+					? this.state.clean
+						? pressed === "-"
+							? {
+									result: this.state.result.includes(pressed)
+										? this.state.result.replace(pressed, "0")
+										: pressed,
+									concat: true,
+							  }
+							: {
+									operator: pressed,
+							  }
+						: {
+								num1: Number(this.state.result),
+								operator: pressed,
+								concat: false,
+								clean: true,
+						  }
+					: {
+							num1: Number(this.state.result),
+							operator: pressed,
+							concat: false,
+							clean: true,
+					  };
 			}
-		} else if(this.state.operator && !isNaN(Number(pressedKeySymbol))) {
-			if(!this.state.concat) {
-				this.setState(state => ({
-					result: pressedKeySymbol,
-					concat: true
-				}));
+		} else if (pressed === ".") {
+			if (this.state.dotPermit && !this.state.result.includes(".")) {
+				return {
+					result: this.state.result + pressed,
+					concat: true,
+				};
+			} else if (
+				!this.state.dotPermit &&
+				!this.state.result.includes(".")
+			) {
+				return {
+					result: "0.",
+					concat: true,
+					clean: false,
+				};
+			}
+		} else if (!this.state.operator && !isNaN(Number(pressed))) {
+			if (!this.state.concat) {
+				return {
+					result: pressed,
+					concat: pressed === "0" ? false : true,
+					clean: false,
+				};
 			} else {
-				this.setState(state => ({
-					result: this.state.result + pressedKeySymbol
-				}));
+				return {
+					result: this.state.result + pressed,
+					clean: false,
+				};
 			}
-		} else if(pressedKeySymbol === '=') {
-			this.setState({
-					num2: this.state.result,
-			}, this.operate());
+		} else if (this.state.operator && !isNaN(Number(pressed))) {
+			if (!this.state.concat) {
+				return {
+					result: pressed,
+					concat: true,
+					clean: false,
+				};
+			} else {
+				return {
+					result: this.state.result + pressed,
+					clean: false,
+				};
+			}
 		}
 	}
 
 	operate() {
 		let res;
 
-		switch(this.state.operator) {
-			case '+':
-				res = this.state.num1 + this.state.num2;
+		switch (this.state.operator) {
+			case "+":
+				res = Number(this.state.num1) + Number(this.state.result);
 				break;
-			case '-':
-				res = this.state.num1 - this.state.num2;
+			case "-":
+				res = Number(this.state.num1) - Number(this.state.result);
 				break;
-			case 'x':
-				res = this.state.num1 * this.state.num2;
+			case "x":
+				res = Number(this.state.num1) * Number(this.state.result);
 				break;
-			case '/':
-				res = this.state.num1 / this.state.num2;
+			case "/":
+				res = Number(this.state.num1) / Number(this.state.result);
 				break;
 			default:
+				res = this.state.result;
 				break;
 		}
+		//console.log(res);
+		let strResult = String(res);
+		let isFloat = false;
+
+		if (strResult.includes(".")) {
+			strResult = strResult.slice(strResult.indexOf(".") + 1);
+			isFloat = true;
+		}
+
 		console.log(res);
-		this.setState(state => ({
-			result: res,
+		console.log(strResult);
+
+		this.setState((state) => ({
+			result: String(
+				isFloat && strResult.length > 4 ? res.toFixed(4) : res
+			),
 			num1: 0.0,
 			num2: 0.0,
-			operator: '',
-			concat: false
+			operator: "",
+			concat: false,
+			dotPermit: false,
 		}));
+
+		console.log("Operation Done!!!");
+	}
+
+	clearAll() {
+		this.setState((state) => ({
+			result: "0",
+			num1: 0.0,
+			num2: 0.0,
+			operator: "",
+			concat: false,
+			clean: true,
+		}));
+
+		console.log("Calculator Cleared!!!");
 	}
 
 	render() {
 		return (
 			<div id="calculator">
-				<span className="header">f<sub>(X)</sub> = ingGGRM</span>
+				<span className="header">
+					f<sub>(X)</sub> = ingGGRM
+				</span>
 				<span className="header">JavaScript Calculator</span>
 				<div id="display">{String(this.state.result)}</div>
 				<div id="keys">
@@ -156,7 +226,13 @@ class App extends React.Component {
 						<KeyCreator
 							symbol={key.symbol}
 							ident={key.id}
-							stateChanger={this.clickHandler}
+							actionFunction={
+								key.symbol === "="
+									? this.operate
+									: key.symbol === "AC"
+									? this.clearAll
+									: this.buttonClickHandler
+							}
 						/>
 					))}
 				</div>
@@ -172,8 +248,8 @@ class KeyCreator extends React.Component {
 		this.clickHandler = this.clickHandler.bind(this);
 	}
 
-	clickHandler() {
-		this.props.stateChanger(this.props.symbol);
+	clickHandler(event) {
+		this.props.actionFunction(event.target.value);
 	}
 
 	render() {
@@ -182,6 +258,7 @@ class KeyCreator extends React.Component {
 				className="key"
 				id={this.props.ident}
 				onClick={this.clickHandler}
+				value={this.props.symbol}
 			>
 				{this.props.symbol}
 			</button>
