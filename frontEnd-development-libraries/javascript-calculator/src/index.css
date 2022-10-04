@@ -77,10 +77,12 @@ body {
 	font-family: "Scientific Calculator LCD", sans-serif;
 	color: black;
 	text-align: right;
-	font-size: 28px;
+	font-size: 20px;
 	font-weight: 600;
 	line-height: 70px;
 	vertical-align: middle;
+	overflow-x: hidden;
+	overflow-y: hidden;
 }
 
 #keys {
@@ -96,7 +98,7 @@ body {
 .key {
 	height: 100%;
 	width: 100%;
-	border-radius: 20px;
+	border-radius: 30px;
 }
 
 .key:hover {
@@ -106,6 +108,8 @@ body {
 
 #clear {
 	grid-column: span 2;
+	background-color: black;
+	color: white;
 }
 
 #zero {
@@ -114,4 +118,6 @@ body {
 
 #equals {
 	grid-column: span 2;
+	background-color: rgb(187, 91, 91);
+	color: white;
 }

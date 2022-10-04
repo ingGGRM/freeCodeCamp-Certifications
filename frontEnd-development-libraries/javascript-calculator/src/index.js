@@ -51,23 +51,28 @@ class App extends React.Component {
 	}
 
 	keypressHandler(e) {
-		console.log(
-			this.keys.filter((key) => key.keyCode === e.keyCode)[0].symbol
-		);
-		//this.setState((state) => this.compute(e.keyCode));
+		if (e.keyCode === 13) {
+			this.operate();
+		} else {
+			let dt = [];
+
+			try {
+				dt = this.keys.filter((key) => key.keyCode === e.keyCode)[0]
+					.symbol;
+			} catch (err) {
+				console.log("Unsupported Key!!!");
+			}
+			if (dt.length > 0) {
+				this.setState((state) => this.computeKeys(dt));
+			}
+		}
 	}
 
 	buttonClickHandler(event) {
-		//console.log(event);
 		this.setState((state) => this.computeKeys(event));
-		console.log("Clicked!!!");
 	}
 
 	computeKeys(pressed) {
-		//const pressedKeySymbol = this.keys.filter((key) => (key.symbol === pressed || key.keyCode === pressed))[0].symbol;
-
-		//console.log(pressed);
-
 		if (["+", "-", "x", "/"].includes(pressed)) {
 			if (this.state.clean) {
 				return pressed === "-"
@@ -89,7 +94,10 @@ class App extends React.Component {
 						? pressed === "-"
 							? {
 									result: this.state.result.includes(pressed)
-										? this.state.result.replace(pressed, "0")
+										? this.state.result.replace(
+												pressed,
+												"0"
+										  )
 										: pressed,
 									concat: true,
 							  }
@@ -174,7 +182,6 @@ class App extends React.Component {
 				res = this.state.result;
 				break;
 		}
-		//console.log(res);
 		let strResult = String(res);
 		let isFloat = false;
 
@@ -182,9 +189,6 @@ class App extends React.Component {
 			strResult = strResult.slice(strResult.indexOf(".") + 1);
 			isFloat = true;
 		}
-
-		console.log(res);
-		console.log(strResult);
 
 		this.setState((state) => ({
 			result: String(
@@ -196,8 +200,6 @@ class App extends React.Component {
 			concat: false,
 			dotPermit: false,
 		}));
-
-		console.log("Operation Done!!!");
 	}
 
 	clearAll() {
