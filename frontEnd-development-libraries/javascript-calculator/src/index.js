@@ -20,7 +20,7 @@ class App extends React.Component {
 			{ symbol: "2", id: "two", keyCode: 98 },
 			{ symbol: "3", id: "three", keyCode: 99 },
 			{ symbol: "+", id: "add", keyCode: 107 },
-			{ symbol: "-", id: "substract", keyCode: 109 },
+			{ symbol: "-", id: "subtract", keyCode: 109 },
 			{ symbol: "0", id: "zero", keyCode: 96 },
 			{ symbol: ".", id: "decimal", keyCode: 110 },
 			{ symbol: "=", id: "equals", keyCode: 13 },
@@ -32,7 +32,7 @@ class App extends React.Component {
 			operator: "",
 			concat: false,
 			dotPermit: true,
-			clean: true,
+			partialResult: "",
 		};
 
 		this.keypressHandler = this.keypressHandler.bind(this);
@@ -73,77 +73,81 @@ class App extends React.Component {
 	}
 
 	computeKeys(pressed) {
+		console.log(this.state);
 		if (["+", "-", "x", "/"].includes(pressed)) {
-			if (this.state.clean) {
-				return pressed === "-"
+			if (this.state.operator === "") {
+				return (this.state.result === "0" ||
+					this.state.result === "") &&
+					pressed === "-"
 					? {
-							result: this.state.result.includes(pressed)
-								? this.state.result.replace(pressed, "0")
-								: pressed,
+							result: pressed,
 							concat: true,
 					  }
 					: {
 							num1: Number(this.state.result),
 							operator: pressed,
 							concat: false,
-							clean: true,
+							dotPermit: true,
 					  };
 			} else {
-				return this.state.operator !== ""
-					? this.state.clean
-						? pressed === "-"
-							? {
-									result: this.state.result.includes(pressed)
-										? this.state.result.replace(
-												pressed,
-												"0"
-										  )
-										: pressed,
-									concat: true,
-							  }
-							: {
-									operator: pressed,
-							  }
-						: {
-								num1: Number(this.state.result),
-								operator: pressed,
-								concat: false,
-								clean: true,
-						  }
-					: {
-							num1: Number(this.state.result),
+				console.log("he")
+				if(!isNaN(Number(this.state.result))) {
+					if (pressed === "-") {
+						return {
+							result: pressed,
+							concat: true,
+						};
+					} else {
+						return {
+							result: this.state.result.includes("-")
+								? this.state.result.replace(
+										"-",
+										this.state.result.length > 1 ? "" : "0"
+								)
+								: this.state.result,
 							operator: pressed,
 							concat: false,
-							clean: true,
-					  };
+						};
+					}
+				} else {
+					this.operate(pressed);
+				}
 			}
 		} else if (pressed === ".") {
-			if (this.state.dotPermit && !this.state.result.includes(".")) {
-				return {
-					result: this.state.result + pressed,
-					concat: true,
-				};
-			} else if (
-				!this.state.dotPermit &&
-				!this.state.result.includes(".")
-			) {
-				return {
-					result: "0.",
-					concat: true,
-					clean: false,
-				};
+			if (this.state.dotPermit) {
+				return this.state.result !== ""
+					? this.state.result === "0"
+						? {
+								result: this.state.result + pressed,
+								concat: true,
+								dotPermit: false,
+						  }
+						: this.state.result === "-"
+						? {
+								result: this.state.result + "0.",
+								concat: true,
+								dotPermit: false,
+						  }
+						: {
+								result: this.state.result + pressed,
+								concat: true,
+								dotPermit: false,
+						  }
+					: {
+							result: this.state.result + "0.",
+							concat: true,
+							dotPermit: false,
+					  };
 			}
 		} else if (!this.state.operator && !isNaN(Number(pressed))) {
 			if (!this.state.concat) {
 				return {
 					result: pressed,
 					concat: pressed === "0" ? false : true,
-					clean: false,
 				};
 			} else {
 				return {
 					result: this.state.result + pressed,
-					clean: false,
 				};
 			}
 		} else if (this.state.operator && !isNaN(Number(pressed))) {
@@ -151,18 +155,17 @@ class App extends React.Component {
 				return {
 					result: pressed,
 					concat: true,
-					clean: false,
 				};
 			} else {
 				return {
 					result: this.state.result + pressed,
-					clean: false,
 				};
 			}
 		}
 	}
 
-	operate() {
+	operate(event) {
+		console.log(event);
 		let res;
 
 		switch (this.state.operator) {
@@ -190,26 +193,35 @@ class App extends React.Component {
 			isFloat = true;
 		}
 
-		this.setState((state) => ({
-			result: String(
-				isFloat && strResult.length > 4 ? res.toFixed(4) : res
-			),
-			num1: 0.0,
-			num2: 0.0,
-			operator: "",
-			concat: false,
-			dotPermit: false,
-		}));
+		if(event === '=') {
+			this.setState((state) => ({
+				result: String(
+					isFloat && strResult.length > 4 ? res.toFixed(4) : res
+				),
+				num1: 0.0,
+				operator: "",
+				concat: false,
+				dotPermit: false,
+			}));
+		} else {
+			this.setState((state) => ({
+				num1: Number(String(
+					isFloat && strResult.length > 4 ? res.toFixed(4) : res
+				)),
+				operator: "",
+				concat: false,
+				dotPermit: false,
+			}));
+		}
 	}
 
 	clearAll() {
 		this.setState((state) => ({
 			result: "0",
 			num1: 0.0,
-			num2: 0.0,
 			operator: "",
 			concat: false,
-			clean: true,
+			dotPermit: true,
 		}));
 
 		console.log("Calculator Cleared!!!");
