@@ -33,14 +33,13 @@ class App extends React.Component {
 			operator: "",
 			concat: false,
 			dotPermit: true,
-			partialResult: "",
+			clean: true,
 		};
 
 		this.keypressHandler = this.keypressHandler.bind(this);
 		this.buttonClickHandler = this.buttonClickHandler.bind(this);
 		this.computeNumbers = this.computeNumbers.bind(this);
 		this.computeFunctions = this.computeFunctions.bind(this);
-		this.operate = this.operate.bind(this);
 		this.clearAll = this.clearAll.bind(this);
 	}
 
@@ -66,7 +65,7 @@ class App extends React.Component {
 			}
 			if (dt.length > 0) {
 				this.setState((state) =>
-					["+", "-", "x", "/"]
+					["+", "-", "x", "/", "="]
 						? this.computeFunctions(dt)
 						: this.computeNumbers(dt)
 				);
@@ -76,7 +75,7 @@ class App extends React.Component {
 
 	buttonClickHandler(event) {
 		this.setState((state) =>
-			["+", "-", "x", "/"].includes(event)
+			["+", "-", "x", "/", "="].includes(event)
 				? this.computeFunctions(event)
 				: this.computeNumbers(event)
 		);
@@ -84,9 +83,10 @@ class App extends React.Component {
 
 	computeNumbers(pressed) {
 		console.log("Numbers");
+
 		if (this.state.dotPermit && pressed === ".") {
 			return {
-				screenData: this.state.screenData + pressed,
+				screenData: (this.state.clean) ? this.state.screenData + pressed : '0.',
 				dotPermit: false,
 				concat: true,
 			};
@@ -106,99 +106,64 @@ class App extends React.Component {
 
 	computeFunctions(pressed) {
 		console.log("Functions");
-		if (["+", "-", "x", "/"].includes(pressed)) {
-			if (this.state.operator === "") {
-				return (this.state.result === "0" ||
-					this.state.result === "") &&
-					pressed === "-"
-					? {
-							result: pressed,
-							concat: true,
-					  }
-					: {
-							num1: Number(this.state.result),
-							operator: pressed,
-							concat: false,
-							dotPermit: true,
-					  };
-			} else {
-				console.log("he");
-				if (!isNaN(Number(this.state.result))) {
-					if (pressed === "-") {
-						return {
-							result: pressed,
-							concat: true,
-						};
-					} else {
-						return {
-							result: this.state.result.includes("-")
-								? this.state.result.replace(
-										"-",
-										this.state.result.length > 1 ? "" : "0"
-								  )
-								: this.state.result,
-							operator: pressed,
-							concat: false,
-						};
-					}
-				} else {
-					this.operate(pressed);
-				}
-			}
+
+		if (this.state.operator === "") {
+			return {
+				num1: Number(this.state.screenData),
+				operator: pressed,
+				concat: false,
+				dotPermit: true,
+				clean: false,
+			};
+		} else {
+			let result = this.operate(
+				this.state.num1,
+				Number(this.state.screenData),
+				this.state.operator
+			);
+			let strResult = String(result).includes(".")
+				? String(result).slice(String(result).indexOf(".") + 1)
+				: "";
+
+			return {
+				screenData:
+					strResult.length > 4
+						? String(result.toFixed(4))
+						: String(result),
+				num1: result,
+				num2: Number(this.state.screenData),
+				operator: pressed,
+				concat: false,
+				dotPermit: true,
+				clean: false,
+			};
 		}
 	}
 
-	operate(event) {
-		console.log(event);
-		let res;
+	operate(x, y, op) {
+		console.log(x, y, op);
+		let result;
 
-		switch (this.state.operator) {
+		switch (op) {
 			case "+":
-				res = Number(this.state.num1) + Number(this.state.result);
+				result = x + y;
 				break;
 			case "-":
-				res = Number(this.state.num1) - Number(this.state.result);
+				result = x - y;
 				break;
 			case "x":
-				res = Number(this.state.num1) * Number(this.state.result);
+				result = x * y;
 				break;
 			case "/":
-				res = Number(this.state.num1) / Number(this.state.result);
+				result = x / y;
 				break;
 			default:
-				res = this.state.result;
+				result = y;
 				break;
 		}
-		let strResult = String(res);
-		let isFloat = false;
 
-		if (strResult.includes(".")) {
-			strResult = strResult.slice(strResult.indexOf(".") + 1);
-			isFloat = true;
-		}
-
-		if (event === "=") {
-			this.setState((state) => ({
-				result: String(
-					isFloat && strResult.length > 4 ? res.toFixed(4) : res
-				),
-				num1: 0.0,
-				operator: "",
-				concat: false,
-				dotPermit: false,
-			}));
-		} else {
-			this.setState((state) => ({
-				num1: Number(
-					String(
-						isFloat && strResult.length > 4 ? res.toFixed(4) : res
-					)
-				),
-				operator: "",
-				concat: false,
-				dotPermit: false,
-			}));
-		}
+		console.log(result);
+		return result;
 	}
 
 	clearAll() {
@@ -209,6 +174,7 @@ class App extends React.Component {
 			operator: "",
 			concat: false,
 			dotPermit: true,
+			clean: true,
 		}));
 
 		console.log("Calculator Cleared!!!");
@@ -228,9 +194,7 @@ class App extends React.Component {
 							symbol={key.symbol}
 							ident={key.id}
 							actionFunction={
-								key.symbol === "="
-									? this.operate
-									: key.symbol === "AC"
+								key.symbol === "AC"
 									? this.clearAll
 									: this.buttonClickHandler
 							}
