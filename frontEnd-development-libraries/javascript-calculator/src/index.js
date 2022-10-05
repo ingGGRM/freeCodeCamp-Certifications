@@ -27,8 +27,9 @@ class App extends React.Component {
 		];
 
 		this.state = {
-			result: "0",
+			screenData: "0",
 			num1: 0.0,
+			num2: 0.0,
 			operator: "",
 			concat: false,
 			dotPermit: true,
@@ -37,7 +38,8 @@ class App extends React.Component {
 
 		this.keypressHandler = this.keypressHandler.bind(this);
 		this.buttonClickHandler = this.buttonClickHandler.bind(this);
-		this.computeKeys = this.computeKeys.bind(this);
+		this.computeNumbers = this.computeNumbers.bind(this);
+		this.computeFunctions = this.computeFunctions.bind(this);
 		this.operate = this.operate.bind(this);
 		this.clearAll = this.clearAll.bind(this);
 	}
@@ -63,17 +65,47 @@ class App extends React.Component {
 				console.log("Unsupported Key!!!");
 			}
 			if (dt.length > 0) {
-				this.setState((state) => this.computeKeys(dt));
+				this.setState((state) =>
+					["+", "-", "x", "/"]
+						? this.computeFunctions(dt)
+						: this.computeNumbers(dt)
+				);
 			}
 		}
 	}
 
 	buttonClickHandler(event) {
-		this.setState((state) => this.computeKeys(event));
+		this.setState((state) =>
+			["+", "-", "x", "/"].includes(event)
+				? this.computeFunctions(event)
+				: this.computeNumbers(event)
+		);
 	}
 
-	computeKeys(pressed) {
-		console.log(this.state);
+	computeNumbers(pressed) {
+		console.log("Numbers");
+		if (this.state.dotPermit && pressed === ".") {
+			return {
+				screenData: this.state.screenData + pressed,
+				dotPermit: false,
+				concat: true,
+			};
+		} else if (!this.state.dotPermit && pressed === ".") {
+			return {};
+		} else if (this.state.screenData !== "0" && this.state.concat) {
+			return {
+				screenData: this.state.screenData + pressed,
+			};
+		} else {
+			return {
+				screenData: pressed,
+				concat: true,
+			};
+		}
+	}
+
+	computeFunctions(pressed) {
+		console.log("Functions");
 		if (["+", "-", "x", "/"].includes(pressed)) {
 			if (this.state.operator === "") {
 				return (this.state.result === "0" ||
@@ -90,8 +122,8 @@ class App extends React.Component {
 							dotPermit: true,
 					  };
 			} else {
-				console.log("he")
-				if(!isNaN(Number(this.state.result))) {
+				console.log("he");
+				if (!isNaN(Number(this.state.result))) {
 					if (pressed === "-") {
 						return {
 							result: pressed,
@@ -103,7 +135,7 @@ class App extends React.Component {
 								? this.state.result.replace(
 										"-",
 										this.state.result.length > 1 ? "" : "0"
-								)
+								  )
 								: this.state.result,
 							operator: pressed,
 							concat: false,
@@ -112,54 +144,6 @@ class App extends React.Component {
 				} else {
 					this.operate(pressed);
 				}
-			}
-		} else if (pressed === ".") {
-			if (this.state.dotPermit) {
-				return this.state.result !== ""
-					? this.state.result === "0"
-						? {
-								result: this.state.result + pressed,
-								concat: true,
-								dotPermit: false,
-						  }
-						: this.state.result === "-"
-						? {
-								result: this.state.result + "0.",
-								concat: true,
-								dotPermit: false,
-						  }
-						: {
-								result: this.state.result + pressed,
-								concat: true,
-								dotPermit: false,
-						  }
-					: {
-							result: this.state.result + "0.",
-							concat: true,
-							dotPermit: false,
-					  };
-			}
-		} else if (!this.state.operator && !isNaN(Number(pressed))) {
-			if (!this.state.concat) {
-				return {
-					result: pressed,
-					concat: pressed === "0" ? false : true,
-				};
-			} else {
-				return {
-					result: this.state.result + pressed,
-				};
-			}
-		} else if (this.state.operator && !isNaN(Number(pressed))) {
-			if (!this.state.concat) {
-				return {
-					result: pressed,
-					concat: true,
-				};
-			} else {
-				return {
-					result: this.state.result + pressed,
-				};
 			}
 		}
 	}
@@ -193,7 +177,7 @@ class App extends React.Component {
 			isFloat = true;
 		}
 
-		if(event === '=') {
+		if (event === "=") {
 			this.setState((state) => ({
 				result: String(
 					isFloat && strResult.length > 4 ? res.toFixed(4) : res
@@ -205,9 +189,11 @@ class App extends React.Component {
 			}));
 		} else {
 			this.setState((state) => ({
-				num1: Number(String(
-					isFloat && strResult.length > 4 ? res.toFixed(4) : res
-				)),
+				num1: Number(
+					String(
+						isFloat && strResult.length > 4 ? res.toFixed(4) : res
+					)
+				),
 				operator: "",
 				concat: false,
 				dotPermit: false,
@@ -217,8 +203,9 @@ class App extends React.Component {
 
 	clearAll() {
 		this.setState((state) => ({
-			result: "0",
+			screenData: "0",
 			num1: 0.0,
+			num2: 0.0,
 			operator: "",
 			concat: false,
 			dotPermit: true,
@@ -234,7 +221,7 @@ class App extends React.Component {
 					f<sub>(X)</sub> = ingGGRM
 				</span>
 				<span className="header">JavaScript Calculator</span>
-				<div id="display">{String(this.state.result)}</div>
+				<div id="display">{String(this.state.screenData)}</div>
 				<div id="keys">
 					{this.keys.map((key) => (
 						<KeyCreator
