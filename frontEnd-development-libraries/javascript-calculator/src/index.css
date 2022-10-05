@@ -83,6 +83,7 @@ body {
 	vertical-align: middle;
 	overflow-x: hidden;
 	overflow-y: hidden;
+	padding: 0 3px;
 }
 
 #keys {

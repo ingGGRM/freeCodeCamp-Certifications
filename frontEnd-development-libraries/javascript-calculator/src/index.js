@@ -31,9 +31,12 @@ class App extends React.Component {
 			num1: 0.0,
 			num2: 0.0,
 			operator: "",
+			negative: false,
 			concat: false,
 			dotPermit: true,
 			clean: true,
+			changeOp: false,
+			canNeg: true,
 		};
 
 		this.keypressHandler = this.keypressHandler.bind(this);
@@ -86,20 +89,30 @@ class App extends React.Component {
 
 		if (this.state.dotPermit && pressed === ".") {
 			return {
-				screenData: (this.state.clean) ? this.state.screenData + pressed : '0.',
+				screenData: !this.state.clean
+					? this.state.screenData + pressed
+					: "0.",
 				dotPermit: false,
 				concat: true,
+				changeOp: false,
+				canNeg: false,
 			};
 		} else if (!this.state.dotPermit && pressed === ".") {
 			return {};
 		} else if (this.state.screenData !== "0" && this.state.concat) {
 			return {
 				screenData: this.state.screenData + pressed,
+				changeOp: false,
+				canNeg: false,
+				clean: false,
 			};
 		} else {
 			return {
 				screenData: pressed,
 				concat: true,
+				changeOp: false,
+				canNeg: false,
+				clean: false,
 			};
 		}
 	}
@@ -107,13 +120,25 @@ class App extends React.Component {
 	computeFunctions(pressed) {
 		console.log("Functions");
 
-		if (this.state.operator === "") {
+		if (((pressed === "-" && ['+', 'x', '/'].includes(this.state.operator)) || (pressed === "-")) && this.state.canNeg) {
+			console.log(this.state)
 			return {
-				num1: Number(this.state.screenData),
+				screenData: this.state.negative ? '0' : '-',
+				concat: this.state.negative ? false : true,
+				negative: !this.state.negative,
+			};
+		} else if (this.state.operator === "" || this.state.changeOp) {
+			return {
+				num1: this.state.changeOp
+					? this.state.num1
+					: Number(this.state.screenData),
 				operator: pressed,
+				negative: false,
 				concat: false,
 				dotPermit: true,
-				clean: false,
+				clean: true,
+				changeOp: true,
+				canNeg: true,
 			};
 		} else {
 			let result = this.operate(
@@ -133,15 +158,18 @@ class App extends React.Component {
 				num1: result,
 				num2: Number(this.state.screenData),
 				operator: pressed,
+				negative: false,
 				concat: false,
 				dotPermit: true,
-				clean: false,
+				clean: true,
+				changeOp: true,
+				canNeg: pressed === '-' ? false : true,
 			};
 		}
 	}
 
 	operate(x, y, op) {
-		console.log(x, y, op);
+		console.log(x, op, y);
 		let result;
 
 		switch (op) {
@@ -172,9 +200,11 @@ class App extends React.Component {
 			num1: 0.0,
 			num2: 0.0,
 			operator: "",
+			negative: false,
 			concat: false,
 			dotPermit: true,
 			clean: true,
+			canNeg: true,
 		}));
 
 		console.log("Calculator Cleared!!!");
