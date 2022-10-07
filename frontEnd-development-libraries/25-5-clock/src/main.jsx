@@ -6,13 +6,17 @@ import "./index.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowAltCircleDown } from "@fortawesome/free-solid-svg-icons";
 import { faArrowAltCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
-const arrowDown = (
-	<FontAwesomeIcon icon={faArrowAltCircleDown} pointerEvents="none" />
-);
-const arrowUp = (
-	<FontAwesomeIcon icon={faArrowAltCircleUp} pointerEvents="none" />
-);
+const icons = {
+	arrowDown: (
+		<FontAwesomeIcon icon={faArrowAltCircleDown} pointerEvents="none" />
+	),
+	arrowUp: <FontAwesomeIcon icon={faArrowAltCircleUp} pointerEvents="none" />,
+	play: <FontAwesomeIcon icon={faPlay} pointerEvents="none" />,
+	reset: <FontAwesomeIcon icon={faRefresh} pointerEvents="none" />,
+};
 /**********************************************************************************************/
 
 class App extends React.Component {
@@ -76,7 +80,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div>
+			<div id="container" className="container-fluid">
 				<label id="title">25+5 Clock</label>
 				<div id="settings-panel">
 					<div id="break-panel">
@@ -89,14 +93,14 @@ class App extends React.Component {
 							onClick={this.clickHandler}
 							value="breakDown"
 						>
-							{arrowDown}
+							{icons.arrowDown}
 						</button>
 						<button
 							id="break-increment"
 							onClick={this.clickHandler}
 							value="breakUp"
 						>
-							{arrowUp}
+							{icons.arrowUp}
 						</button>
 					</div>
 					<div id="session-panel">
@@ -108,21 +112,25 @@ class App extends React.Component {
 								onClick={this.clickHandler}
 								value="sessionDown"
 							>
-								{arrowDown}
+								{icons.arrowDown}
 							</button>
 							<button
 								id="session-increment"
 								onClick={this.clickHandler}
 								value="sessionUp"
 							>
-								{arrowUp}
+								{icons.arrowUp}
 							</button>
 						</label>
 					</div>
-					<div id="display">
-						<label id="timer-label">Session</label>
-						<label id="time-left">{this.state.timer}</label>
-					</div>
+				</div>
+				<div id="display">
+					<label id="timer-label">Session</label>
+					<label id="time-left">{this.state.timer}</label>
+				</div>
+				<div id="control-panel">
+					<button id="start_stop">{icons.play}</button>
+					<button id="reset">{icons.reset}</button>
 				</div>
 			</div>
 		);
