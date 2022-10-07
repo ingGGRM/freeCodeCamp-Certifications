@@ -46,7 +46,10 @@ class App extends React.Component {
 						: this.state.break - 1;
 				break;
 			case "breakUp":
-				updBreak += 1;
+				updBreak =
+					this.state.break === 60
+						? this.state.break
+						: this.state.break + 1;
 				break;
 			case "sessionDown":
 				updSession =
@@ -55,7 +58,10 @@ class App extends React.Component {
 						: this.state.session - 1;
 				break;
 			case "sessionUp":
-				updSession = this.state.session + 1;
+				updSession =
+					this.state.session === 60
+						? this.state.session
+						: this.state.session + 1;
 				break;
 			default:
 				break;
