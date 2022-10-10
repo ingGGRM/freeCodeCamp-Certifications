@@ -30,14 +30,41 @@ class App extends React.Component {
 		this.state = {
 			break: 5,
 			session: 25,
-			timer: "",
+			seconds: 0,
+			sessionTime: true,
+			running: false,
 		};
 
 		this.clickHandler = this.clickHandler.bind(this);
 	}
 
 	componentDidMount() {
-		this.setState({ timer: `${this.state.session}:00` });
+		this.setState({
+			seconds: this.state.sessionTime
+				? this.state.session * 60
+				: this.state.break * 60,
+		});
+
+		const timer = setInterval(() => {
+			if (this.state.running) {
+				let updtedVal = this.state.seconds - 1;
+				if (this.state.sessionTime && updtedVal >= 0) {
+					this.setState((state) => ({
+						seconds: updtedVal,
+					}));
+				} else if(updtedVal < 0) {
+					updtedVal = (this.state.sessionTime) ? (this.state.break * 60) - 1 : (this.state.session * 60) - 1;
+					this.setState((state) => ({
+						seconds: updtedVal,
+						sessionTime: !this.state.sessionTime,
+					}));
+				} else if(!this.state.sessionTime && updtedVal >= 0) {
+					this.setState((state) => ({
+						seconds: updtedVal,
+					}));
+				}
+			}
+		}, 70);
 	}
 
 	clickHandler(event) {
@@ -78,8 +105,27 @@ class App extends React.Component {
 		this.setState((state) => ({
 			break: updBreak,
 			session: updSession,
-			timer: `${updSession}:00`,
+			seconds:
+				event.target.value === "reset"
+					? this.state.session * 60
+					: event.target.value === "sessionUp" || event.target.value === "sessionDown"
+					? updSession * 60 : this.state.seconds,
+			running:
+				event.target.value === "play"
+					? !this.state.running
+					: this.state.running,
 		}));
+	}
+
+	getTimerValue(seconds) {
+		let min = Math.floor(seconds / 60),
+			sec = seconds % 60;
+
+		let str = `${min < 10 ? "0" + min : min} : ${
+			sec < 10 ? "0" + sec : sec
+		}`;
+
+		return str;
 	}
 
 	render() {
@@ -134,17 +180,29 @@ class App extends React.Component {
 				</div>
 				<div id="display">
 					<label id="timer-label">Session</label>
-					<label id="time-left">{this.state.timer}</label>
+					<label id="time-left">
+						{this.getTimerValue(this.state.seconds)}
+					</label>
 				</div>
 				<div id="control-panel">
 					<label>
-						<button id="start_stop" className="btn btn-primary">
+						<button
+							id="start_stop"
+							className="btn btn-primary"
+							onClick={this.clickHandler}
+							value="play"
+						>
 							{icons.play}
 						</button>
 						start
 					</label>
 					<label>
-						<button id="reset" className="btn btn-warning">
+						<button
+							id="reset"
+							className="btn btn-warning"
+							onClick={this.clickHandler}
+							value="reset"
+						>
 							{icons.reset}
 						</button>
 						reset
