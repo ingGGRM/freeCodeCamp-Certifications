@@ -21,6 +21,15 @@ const icons = {
 	play: <FontAwesomeIcon icon={faPlay} pointerEvents="none" />,
 	reset: <FontAwesomeIcon icon={faRefresh} pointerEvents="none" />,
 };
+
+const sounds = {
+	cockerel: "https://kukuklok.com/audio/cock.mp3",
+	clock: "https://kukuklok.com/audio/clock.mp3",
+	military: "https://kukuklok.com/audio/military.mp3",
+	electronic: "https://kukuklok.com/audio/electronic.mp3",
+	guitar: "https://kukuklok.com/audio/guitar.mp3",
+	alien: "https://kukuklok.com/audio/alien.mp3",
+}
 /**********************************************************************************************/
 
 class App extends React.Component {
@@ -53,6 +62,7 @@ class App extends React.Component {
 						seconds: updtedVal,
 					}));
 				} else if(updtedVal < 0) {
+					this.startStopAlarm('play');
 					updtedVal = (this.state.sessionTime) ? (this.state.break * 60) - 1 : (this.state.session * 60) - 1;
 					this.setState((state) => ({
 						seconds: updtedVal,
@@ -65,6 +75,16 @@ class App extends React.Component {
 				}
 			}
 		}, 70);
+	}
+
+	startStopAlarm(str) {
+		let alarm = document.getElementById("beep");
+		alarm.currentTime = 0;
+		if(str === 'play') {
+			alarm.play();
+		} else {
+			alarm.load();
+		}
 	}
 
 	clickHandler(event) {
@@ -97,6 +117,9 @@ class App extends React.Component {
 					this.state.session === 60
 						? this.state.session
 						: this.state.session + 1;
+				break;
+			case 'reset':
+				this.startStopAlarm('reset');
 				break;
 			default:
 				break;
@@ -179,10 +202,11 @@ class App extends React.Component {
 					</div>
 				</div>
 				<div id="display">
-					<label id="timer-label">Session</label>
+					<label id="timer-label">{(this.state.sessionTime) ? "Session" : "Break"}</label>
 					<label id="time-left">
 						{this.getTimerValue(this.state.seconds)}
 					</label>
+					<audio id="beep" src={sounds.guitar} ></audio>
 				</div>
 				<div id="control-panel">
 					<label>
