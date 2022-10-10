@@ -11,7 +11,11 @@ import { faRefresh } from "@fortawesome/free-solid-svg-icons";
 
 const icons = {
 	arrowDown: (
-		<FontAwesomeIcon icon={faArrowAltCircleDown} pointerEvents="none" />
+		<FontAwesomeIcon
+			icon={faArrowAltCircleDown}
+			pointerEvents="none"
+			color="green"
+		/>
 	),
 	arrowUp: <FontAwesomeIcon icon={faArrowAltCircleUp} pointerEvents="none" />,
 	play: <FontAwesomeIcon icon={faPlay} pointerEvents="none" />,
@@ -81,47 +85,51 @@ class App extends React.Component {
 	render() {
 		return (
 			<div id="container" className="container-fluid">
-				<label id="title">25+5 Clock</label>
+				<div id="title">25+5 Clock</div>
 				<div id="settings-panel">
 					<div id="break-panel">
-						<label id="break-label">
-							Break Length:
-							<span id="break-length">{` ${this.state.break}`}</span>
-						</label>
-						<button
-							id="break-decrement"
-							onClick={this.clickHandler}
-							value="breakDown"
-						>
-							{icons.arrowDown}
-						</button>
-						<button
-							id="break-increment"
-							onClick={this.clickHandler}
-							value="breakUp"
-						>
-							{icons.arrowUp}
-						</button>
+						<label id="break-label">Break Length:</label>
+						<div className="control">
+							<button
+								id="break-decrement"
+								onClick={this.clickHandler}
+								value="breakDown"
+								className="btn btn-secondary"
+							>
+								{icons.arrowDown}
+							</button>
+							<label id="break-length">{` ${this.state.break}`}</label>
+							<button
+								id="break-increment"
+								onClick={this.clickHandler}
+								value="breakUp"
+								className="btn btn-secondary"
+							>
+								{icons.arrowUp}
+							</button>
+						</div>
 					</div>
 					<div id="session-panel">
-						<label id="session-label">
-							Session Length:
-							<span id="session-length">{` ${this.state.session}`}</span>
+						<label id="session-label">Session Length:</label>
+						<div className="control">
 							<button
 								id="session-decrement"
 								onClick={this.clickHandler}
 								value="sessionDown"
+								className="btn btn-secondary"
 							>
 								{icons.arrowDown}
 							</button>
+							<label id="session-length">{` ${this.state.session}`}</label>
 							<button
 								id="session-increment"
 								onClick={this.clickHandler}
 								value="sessionUp"
+								className="btn btn-secondary"
 							>
 								{icons.arrowUp}
 							</button>
-						</label>
+						</div>
 					</div>
 				</div>
 				<div id="display">
@@ -129,8 +137,18 @@ class App extends React.Component {
 					<label id="time-left">{this.state.timer}</label>
 				</div>
 				<div id="control-panel">
-					<button id="start_stop">{icons.play}</button>
-					<button id="reset">{icons.reset}</button>
+					<label>
+						<button id="start_stop" className="btn btn-primary">
+							{icons.play}
+						</button>
+						start
+					</label>
+					<label>
+						<button id="reset" className="btn btn-warning">
+							{icons.reset}
+						</button>
+						reset
+					</label>
 				</div>
 			</div>
 		);
