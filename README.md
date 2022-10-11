@@ -5,4 +5,4 @@ This repo keeps track of all the practice projects for the freeCodeCamp Certific
 #2: JavaScript Algorithms and Data Structures</br>
 #3: Front End Development Libraries</br>
 
-See page preview at: https://ingggrm.github.io/freeCodeCamp-certifications/
+See page preview at: https://ingggrm.github.io/freeCodeCamp-Certifications/
