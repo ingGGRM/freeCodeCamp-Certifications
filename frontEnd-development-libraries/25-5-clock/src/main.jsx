@@ -4,22 +4,18 @@ import "./index.css";
 
 /**********************************************************************************************/
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowAltCircleDown } from "@fortawesome/free-solid-svg-icons";
-import { faArrowAltCircleUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { faPlay } from "@fortawesome/free-solid-svg-icons";
-import { faRefresh } from "@fortawesome/free-solid-svg-icons";
+import { faPause } from "@fortawesome/free-solid-svg-icons";
+import { faStop } from "@fortawesome/free-solid-svg-icons";
 
 const icons = {
-	arrowDown: (
-		<FontAwesomeIcon
-			icon={faArrowAltCircleDown}
-			pointerEvents="none"
-			color="green"
-		/>
-	),
-	arrowUp: <FontAwesomeIcon icon={faArrowAltCircleUp} pointerEvents="none" />,
+	arrowDown: <FontAwesomeIcon icon={faArrowDown} pointerEvents="none" />,
+	arrowUp: <FontAwesomeIcon icon={faArrowUp} pointerEvents="none" />,
 	play: <FontAwesomeIcon icon={faPlay} pointerEvents="none" />,
-	reset: <FontAwesomeIcon icon={faRefresh} pointerEvents="none" />,
+	pause: <FontAwesomeIcon icon={faPause} pointerEvents="none" />,
+	reset: <FontAwesomeIcon icon={faStop} pointerEvents="none" />,
 };
 
 const sounds = {
@@ -29,7 +25,7 @@ const sounds = {
 	electronic: "https://kukuklok.com/audio/electronic.mp3",
 	guitar: "https://kukuklok.com/audio/guitar.mp3",
 	alien: "https://kukuklok.com/audio/alien.mp3",
-}
+};
 /**********************************************************************************************/
 
 class App extends React.Component {
@@ -42,6 +38,7 @@ class App extends React.Component {
 			seconds: 0,
 			sessionTime: true,
 			running: false,
+			paused: false,
 		};
 
 		this.clickHandler = this.clickHandler.bind(this);
@@ -54,33 +51,13 @@ class App extends React.Component {
 				: this.state.break * 60,
 		});
 
-		const timer = setInterval(() => {
-			if (this.state.running) {
-				let updtedVal = this.state.seconds - 1;
-				if (this.state.sessionTime && updtedVal >= 0) {
-					this.setState((state) => ({
-						seconds: updtedVal,
-					}));
-				} else if(updtedVal < 0) {
-					this.startStopAlarm('play');
-					updtedVal = (this.state.sessionTime) ? (this.state.break * 60) - 1 : (this.state.session * 60) - 1;
-					this.setState((state) => ({
-						seconds: updtedVal,
-						sessionTime: !this.state.sessionTime,
-					}));
-				} else if(!this.state.sessionTime && updtedVal >= 0) {
-					this.setState((state) => ({
-						seconds: updtedVal,
-					}));
-				}
-			}
-		}, 70);
+		this.timer = null;
 	}
 
 	startStopAlarm(str) {
 		let alarm = document.getElementById("beep");
 		alarm.currentTime = 0;
-		if(str === 'play') {
+		if (str === "play" && this.state.sessionTime) {
 			alarm.play();
 		} else {
 			alarm.load();
@@ -95,58 +72,127 @@ class App extends React.Component {
 
 		switch (event.target.value) {
 			case "breakDown":
-				updBreak =
-					this.state.break === 1
-						? this.state.break
-						: this.state.break - 1;
+				if (!this.state.running) {
+					updBreak =
+						this.state.break === 1
+							? this.state.break
+							: this.state.break - 1;
+				}
 				break;
 			case "breakUp":
-				updBreak =
-					this.state.break === 60
-						? this.state.break
-						: this.state.break + 1;
+				if (!this.state.running) {
+					updBreak =
+						this.state.break === 60
+							? this.state.break
+							: this.state.break + 1;
+				}
 				break;
 			case "sessionDown":
-				updSession =
-					this.state.session === 1
-						? this.state.session
-						: this.state.session - 1;
+				if (!this.state.running) {
+					updSession =
+						this.state.session === 1
+							? this.state.session
+							: this.state.session - 1;
+				}
 				break;
 			case "sessionUp":
-				updSession =
-					this.state.session === 60
-						? this.state.session
-						: this.state.session + 1;
+				if (!this.state.running) {
+					updSession =
+						this.state.session === 60
+							? this.state.session
+							: this.state.session + 1;
+				}
 				break;
-			case 'reset':
-				this.startStopAlarm('reset');
+			case "play":
+				if (!this.state.running) {
+					this.timer = setInterval(() => {
+						let updtedVal = this.state.seconds - 1;
+
+						if (this.state.paused) updtedVal -= 1;
+
+						if (this.state.sessionTime && updtedVal >= 0) {
+							this.setState((state) => ({
+								seconds: updtedVal,
+								paused: false,
+							}));
+						} else if (updtedVal < 0) {
+							this.startStopAlarm("play");
+							updtedVal = this.state.sessionTime
+								? this.state.break * 60
+								: this.state.session * 60;
+							this.setState((state) => ({
+								seconds: updtedVal,
+								sessionTime: !this.state.sessionTime,
+								paused: false,
+							}));
+						} else if (!this.state.sessionTime && updtedVal >= 0) {
+							this.setState((state) => ({
+								seconds: updtedVal,
+								paused: false,
+							}));
+						}
+					}, 1000);
+				} else {
+					clearInterval(this.timer);
+				}
+				break;
+			case "reset":
+				clearInterval(this.timer);
+				this.startStopAlarm("reset");
 				break;
 			default:
 				break;
 		}
 
-		this.setState((state) => ({
-			break: updBreak,
-			session: updSession,
-			seconds:
-				event.target.value === "reset"
-					? this.state.session * 60
-					: event.target.value === "sessionUp" || event.target.value === "sessionDown"
-					? updSession * 60 : this.state.seconds,
-			running:
-				event.target.value === "play"
-					? !this.state.running
-					: this.state.running,
-		}));
+		if (!this.state.running) {
+			this.setState((state) => ({
+				break: event.target.value === "reset" ? 5 : updBreak,
+				session: event.target.value === "reset" ? 25 : updSession,
+				seconds:
+					event.target.value === "reset"
+						? 25 * 60
+						: event.target.value === "sessionUp" ||
+						  event.target.value === "sessionDown"
+						? updSession * 60
+						: this.state.seconds,
+				running:
+					event.target.value === "play"
+						? !this.state.running
+						: this.state.running,
+				paused:
+					event.target.value === "play" && this.state.running
+						? true
+						: false,
+			}));
+		} else {
+			this.setState((state) => ({
+				break: event.target.value === "reset" ? 5 : this.state.break,
+				session:
+					event.target.value === "reset" ? 25 : this.state.session,
+				seconds:
+					event.target.value === "reset"
+						? 25 * 60
+						: this.state.seconds,
+				running:
+					event.target.value === "play" ||
+					event.target.value === "reset"
+						? !this.state.running
+						: this.state.running,
+				sessionTime:
+					event.target.value === "reset"
+						? true
+						: this.state.sessionTime,
+				paused:
+					event.target.value === "play" ? true : this.state.paused,
+			}));
+		}
 	}
 
 	getTimerValue(seconds) {
 		let min = Math.floor(seconds / 60),
 			sec = seconds % 60;
 
-		let str = `${min < 10 ? "0" + min : min} : ${
-			sec < 10 ? "0" + sec : sec
-		}`;
+		let str = `${min < 10 ? "0" + min : min}:${sec < 10 ? "0" + sec : sec}`;
 
 		return str;
 	}
@@ -202,11 +248,13 @@ class App extends React.Component {
 					</div>
 				</div>
 				<div id="display">
-					<label id="timer-label">{(this.state.sessionTime) ? "Session" : "Break"}</label>
+					<label id="timer-label">
+						{this.state.sessionTime ? "Session" : "Break"}
+					</label>
 					<label id="time-left">
 						{this.getTimerValue(this.state.seconds)}
 					</label>
-					<audio id="beep" src={sounds.guitar} ></audio>
+					<audio id="beep" src={sounds.guitar}></audio>
 				</div>
 				<div id="control-panel">
 					<label>
@@ -216,7 +264,7 @@ class App extends React.Component {
 							onClick={this.clickHandler}
 							value="play"
 						>
-							{icons.play}
+							{!this.state.running ? icons.play : icons.pause}
 						</button>
 						start
 					</label>
