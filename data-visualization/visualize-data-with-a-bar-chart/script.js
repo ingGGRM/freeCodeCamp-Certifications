@@ -24,16 +24,21 @@ document.addEventListener("DOMContentLoaded", function () {
 		// get x and y axis scales
 		const xScale = d3
 			.scaleLinear()
-			.domain([d3.min(json.data, (d) => d[0].slice(0, 4)), d3.max(json.data, (d) => d[0].slice(0, 4))])
+			.domain([
+				d3.min(json.data, (d) => d[0].slice(0, 4)),
+				d3.max(json.data, (d) => d[0].slice(0, 4)),
+			])
 			.range([padding, w - padding]);
 		const yScale = d3
 			.scaleLinear()
 			.domain([0, d3.max(json.data, (d) => d[1])])
 			.range([h - padding, padding]);
 
+		// create x and y axis
 		const xAxis = d3.axisBottom(xScale);
 		const yAxis = d3.axisLeft(yScale);
 
+		// draw x and y axis
 		svg.append("g")
 			.attr("transform", "translate(0, " + (h - padding) + ")")
 			.call(xAxis);
@@ -41,7 +46,15 @@ document.addEventListener("DOMContentLoaded", function () {
 			.attr("transform", "translate(" + padding + ", 0)")
 			.call(yAxis);
 
-		//svg.data(json.data).enter().append("");
+		// draw 1px size circle for each data entry
+		svg.selectAll("circle")
+			.data(json.data)
+			.enter()
+			.append("circle")
+			.attr("cx", (d) => xScale(d[0].slice(0, 4)))
+			.attr("cy", (d) => yScale(d[1]))
+			.attr("r", 0.5)
+			.attr("fill", "black");
 	};
 });
 
