@@ -4,26 +4,46 @@ const dataUrl =
 // event handler to work after page content has loaded
 document.addEventListener("DOMContentLoaded", function () {
 	const svg = d3.select("#root"); // select #root element and store as svg
+	const w = 800;
+	const h = 600;
+	const padding = 60;
 
 	//sampleCirclesTest(svg); // uncomment call to test function
 
-	var json = getJson(dataUrl); // get json data from server and store
-});
+	//set svg size
+	svg.attr("width", w).attr("height", h);
 
-// function that receives an url and returns a fetched json file using that url
-function getJson(url) {
-	let json = {};
 	const req = new XMLHttpRequest();
-	req.open("GET", url, true);
+	req.open("GET", dataUrl, true);
 	req.send();
 	req.onload = function () {
-		json = JSON.parse(req.responseText);
-		// console.log(json); // uncomment to print json file directly as an object
+		const json = JSON.parse(req.responseText);
+		console.log(json.data); // uncomment to print json file directly as an object
 		// console.log(JSON.stringify(json)); // uncomment to print json file as string
-	};
 
-	return json;
-}
+		// get x and y axis scales
+		const xScale = d3
+			.scaleLinear()
+			.domain([d3.min(json.data, (d) => d[0].slice(0, 4)), d3.max(json.data, (d) => d[0].slice(0, 4))])
+			.range([padding, w - padding]);
+		const yScale = d3
+			.scaleLinear()
+			.domain([0, d3.max(json.data, (d) => d[1])])
+			.range([h - padding, padding]);
+
+		const xAxis = d3.axisBottom(xScale);
+		const yAxis = d3.axisLeft(yScale);
+
+		svg.append("g")
+			.attr("transform", "translate(0, " + (h - padding) + ")")
+			.call(xAxis);
+		svg.append("g")
+			.attr("transform", "translate(" + padding + ", 0)")
+			.call(yAxis);
+
+		//svg.data(json.data).enter().append("");
+	};
+});
 
 // test function that draws 3 color circles in svg element
 function sampleCirclesTest(svg) {
