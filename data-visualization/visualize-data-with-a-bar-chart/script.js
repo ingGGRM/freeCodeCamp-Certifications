@@ -3,6 +3,7 @@ const dataUrl =
 
 // event handler to work after page content has loaded
 document.addEventListener("DOMContentLoaded", function () {
+	const title = d3.select("#title"); // select #title element and store as title
 	const svg = d3.select("#root"); // select #root element and store as svg
 	const w = 800;
 	const h = 600;
@@ -17,9 +18,11 @@ document.addEventListener("DOMContentLoaded", function () {
 	req.open("GET", dataUrl, true);
 	req.send();
 	req.onload = function () {
-		const json = JSON.parse(req.responseText);
-		console.log(json.data); // uncomment to print json file directly as an object
-		// console.log(JSON.stringify(json)); // uncomment to print json file as string
+		const json = JSON.parse(req.responseText); // convert string to object
+		console.log(json); // uncomment to print json file directly as an object
+
+		// set title element text from json
+		title.text(`${json.source_name} : ${json.code}`);
 
 		// get x and y axis scales
 		const xScale = d3
@@ -40,9 +43,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// draw x and y axis
 		svg.append("g")
+			.attr("id", "x-axis")
 			.attr("transform", "translate(0, " + (h - padding) + ")")
 			.call(xAxis);
 		svg.append("g")
+			.attr("id", "y-axis")
 			.attr("transform", "translate(" + padding + ", 0)")
 			.call(yAxis);
 
