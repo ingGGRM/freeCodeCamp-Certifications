@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 	const title = d3.select("#title"); // select #title element and store as title
 	const svg = d3.select("#root"); // select #root element and store as svg
 	const w = 800;
-	const h = 600;
+	const h = 500;
 	const padding = 60;
 
 	//sampleCirclesTest(svg); // uncomment call to test function
@@ -28,9 +28,9 @@ document.addEventListener("DOMContentLoaded", function () {
 		const xScale = d3
 			.scaleLinear()
 			.domain([
-				d3.min(json.data, (d) => d[0].slice(0, 4)),
-				d3.max(json.data, (d) => d[0].slice(0, 4)),
-			])
+				d3.min(json.data, (d) => d[0].slice(0,4)),
+				d3.max(json.data, (d) => d[0].slice(0,4)),
+			]) // d[0].slice(0, 4)
 			.range([padding, w - padding]);
 		const yScale = d3
 			.scaleLinear()
@@ -51,15 +51,17 @@ document.addEventListener("DOMContentLoaded", function () {
 			.attr("transform", "translate(" + padding + ", 0)")
 			.call(yAxis);
 
-		// draw 1px size circle for each data entry
-		svg.selectAll("circle")
+		// draw rects for each data entry
+		svg.selectAll("rect")
 			.data(json.data)
 			.enter()
-			.append("circle")
-			.attr("cx", (d) => xScale(d[0].slice(0, 4)))
-			.attr("cy", (d) => yScale(d[1]))
-			.attr("r", 0.5)
+			.append("rect")
+			.attr("x", (d) => xScale(d[0].slice(0, 4)))
+			.attr("y", (d) => yScale(d[1]))
+			.attr("width", 1)
+			.attr("height", (d) => h - padding - yScale(d[1]))
 			.attr("fill", "black");
+			//(d) => yScale(d[1])
 	};
 });
 
