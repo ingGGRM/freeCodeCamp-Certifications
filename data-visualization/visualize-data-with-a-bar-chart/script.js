@@ -20,17 +20,18 @@ document.addEventListener("DOMContentLoaded", function () {
 	req.onload = function () {
 		const json = JSON.parse(req.responseText); // convert string to object
 		console.log(json); // uncomment to print json file directly as an object
+		console.log(new Date(json.data[0][0]))
 
 		// set title element text from json
 		title.text(`${json.source_name} : ${json.code}`);
 
 		// get x and y axis scales
 		const xScale = d3
-			.scaleLinear()
+			.scaleTime() // set scale type to time, becouse of dates values read from index 0 of data
 			.domain([
-				d3.min(json.data, (d) => d[0].slice(0,4)),
-				d3.max(json.data, (d) => d[0].slice(0,4)),
-			]) // d[0].slice(0, 4)
+				d3.min(json.data, (d) => new Date(d[0])),// set domain based on date data from json.data[0]
+				d3.max(json.data, (d) => new Date(d[0])),// set domain based on date data from json.data[0]
+			])
 			.range([padding, w - padding]);
 		const yScale = d3
 			.scaleLinear()
@@ -38,29 +39,35 @@ document.addEventListener("DOMContentLoaded", function () {
 			.range([h - padding, padding]);
 
 		// create x and y axis
-		const xAxis = d3.axisBottom(xScale);
+		const xAxis = d3.axisBottom(xScale);//.tickFormat(d3.format("d")); // quit comma thousands separator in values format
 		const yAxis = d3.axisLeft(yScale);
 
 		// draw x and y axis
 		svg.append("g")
 			.attr("id", "x-axis")
 			.attr("transform", "translate(0, " + (h - padding) + ")")
-			.call(xAxis);
+			.call(xAxis.ticks(d3.timeYear.every(5))); // set ticks to each 5 years
 		svg.append("g")
 			.attr("id", "y-axis")
 			.attr("transform", "translate(" + padding + ", 0)")
 			.call(yAxis);
+		
+		// select tick elements to add tick class to them
+		d3.selectAll("ticks").attr("class", "tick");
 
 		// draw rects for each data entry
 		svg.selectAll("rect")
 			.data(json.data)
 			.enter()
 			.append("rect")
-			.attr("x", (d) => xScale(d[0].slice(0, 4)))
+			.attr("class", "bar")
+			.attr("x", (d) => xScale(new Date(d[0]))) // set rect on date data from json.data[0]
 			.attr("y", (d) => yScale(d[1]))
 			.attr("width", 1)
 			.attr("height", (d) => h - padding - yScale(d[1]))
-			.attr("fill", "black");
+			.attr("fill", "black")
+			.attr("data-height", (d) => d[0])
+			.attr("data-gdp", (d) => d[1]);
 			//(d) => yScale(d[1])
 	};
 });
