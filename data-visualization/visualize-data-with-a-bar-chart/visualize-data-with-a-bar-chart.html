@@ -23,23 +23,60 @@
 			body {
 				height: 100vh;
 				width: 100vw;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
+				min-width: 600px;
+				min-height: 100vh;
+				display: grid;
+				grid-template-rows: 1fr 5fr;
+				background-color: gray;
 			}
 
 			#title {
-				margin: 20px 0;
-				font-size: 36px;
+				width: 100%;
+				margin: auto;
+				text-align: center;
+				font-size: 30px;
 				font-weight: bold;
 				text-decoration: underline;
 			}
 
 			#root {
+				height: 80%;
+				width: 60%;
+				max-width: 800px;
 				position: relative;
-				border: 1px solid black;
 				margin: auto;
+			}
+
+			#graph {
+				background-color: white;
+				border-radius: 10px;
+				box-shadow: 0 0 50px 1px black;
+				margin: auto;
+				padding: 0;
+			}
+
+			#tooltip {
+				position: absolute;
+				top: 0;
+				left: 0;
+				visibility: hidden;
+				z-index: 10;
+				background: whitesmoke;
+				width: 200px;
+				height: 80px;
+				padding: 5px;
+				border: 3px solid rgba(0, 140, 255, 0.849);
+				border-radius: 10px;
+				color: rgb(77, 72, 72);
+				font-size: 16px;
+				font-weight: bold;
+				transition-duration: 100ms;
+				/*visibility: visible;*/
+			}
+
+			#tooltip strong {
+				color:brown;
+				font-size: 20px;
 			}
 
 			.bar:hover {
@@ -50,7 +87,10 @@
 	</head>
 	<body>
 		<div id="title"></div>
-		<svg id="root"></svg>
+		<div id="root" style="position: relative" class="container-fluid">
+			<svg id="graph" class="container-fluid"></svg>
+			<div id="tooltip"></div>
+		</div>
 	</body>
 </html>
 

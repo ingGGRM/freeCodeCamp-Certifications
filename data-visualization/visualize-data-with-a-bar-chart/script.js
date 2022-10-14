@@ -4,10 +4,17 @@ const dataUrl =
 // event handler to work after page content has loaded
 document.addEventListener("DOMContentLoaded", function () {
 	const title = d3.select("#title"); // select #title element and store as title
-	const svg = d3.select("#root"); // select #root element and store as svg
-	const w = 800;
-	const h = 500;
+	const svg = d3.select("#graph"); // select #root element and store as svg
+	const tooltip = d3.select("#tooltip");
+
 	const padding = 60;
+	const parentDiv = document.getElementById("root");
+	const w = parentDiv.offsetWidth;
+	const h = parentDiv.offsetHeight;
+	/*
+	const w = 700;
+	const h = 500;
+	*/
 
 	//sampleCirclesTest(svg); // uncomment call to test function
 
@@ -56,19 +63,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		d3.selectAll("ticks").attr("class", "tick");
 
 		// create toolTip elements that will show data of bar on mouseover event
-		let tooltip = d3
-			.select("body")
-			.append("div")
-			.attr("id", "tooltip")
-			.style("position", "absolute")
-			.style("visibility", "hidden")
-			.style("z-index", "10")
-			.style("background", "#000")
-			.style("width", "200px")
-			.style("height", "70px")
-			.style("padding", "5px")
-			.style("color", "white")
-			.style("transition-duration", "100ms");
+		d3.select("#tooltip").append("strong").text("Date: ");
+		d3.select("#tooltip").append("span").attr("id", "tooltip-date");
+		d3.select("#tooltip").append("br");
+		d3.select("#tooltip").append("strong").text("GDP: ");
+		d3.select("#tooltip").append("span").attr("id", "tooltip-gdp");
 
 		// draw rects for each data entry
 		svg.selectAll("rect")
@@ -86,12 +85,31 @@ document.addEventListener("DOMContentLoaded", function () {
 			.style("transition-duration", "50ms")
 			.on("mouseover", (e) => {
 				// add mouseover event to bars
+				d3.select("#tooltip-date").text(`${e[0]}`);
+				d3.select("#tooltip-gdp").text(
+					`USD${e[1].toLocaleString("en-US", {
+						style: "currency",
+						currency: "USD",
+					})}`
+				);
 				tooltip
-					.style("top", "200px")
-					.style("left", "200px")
-					.style("visibility", "visible")
-					.text(`Date: ${e[0]}\n GDP: ${e[1]}`)
-					.style("font-size", "20px"); // show tooltip
+					.style("visibility", "visible") // show tooltip
+					.style(
+						"top",
+						`${
+							yScale(e[1]) + 80 > h
+								? yScale(e[1]) - 80
+								: yScale(e[1])
+						}px`
+					)
+					.style(
+						"left",
+						`${
+							padding + xScale(new Date(e[0])) + 200 > w
+								? xScale(new Date(e[0])) - 200 - padding
+								: padding + xScale(new Date(e[0]))
+						}px`
+					);
 			})
 			.on("mouseout", (e) => {
 				// add mouseout event to bars
