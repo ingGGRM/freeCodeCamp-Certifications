@@ -5,7 +5,7 @@ const dataUrl =
 document.addEventListener("DOMContentLoaded", function () {
 	const title = d3.select("#title"); // select #title element and store as title
 	const svg = d3.select("#graph"); // select #root element and store as svg
-	const tooltip = d3.select("#tooltip");
+	const tooltip = d3.select("#tooltip").attr("data-date", "").attr("data-gdp", 0);
 
 	const padding = 60;
 	const parentDiv = document.getElementById("root");
@@ -93,6 +93,8 @@ document.addEventListener("DOMContentLoaded", function () {
 					})}`
 				);
 				tooltip
+					.attr("data-date", e[0])
+					.attr("data-gdp", e[1])
 					.style("visibility", "visible") // show tooltip
 					.style(
 						"top",
