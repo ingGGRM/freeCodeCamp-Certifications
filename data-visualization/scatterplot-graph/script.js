@@ -29,29 +29,31 @@ document.addEventListener("DOMContentLoaded", function () {
 		console.log(json[0].Time); // example getting object 0 Time
 		console.log(json[0].Doping); // if not "", then clasified as "Doping Allegation", else "Not Doping Allegation"
 
-        // proccessing data formats to make it be like date (years, minutes, seconds, etc) data
-        let years = json.map(d => d3.timeParse("%Y")(d.Year));
-        let times = json.map(d => d3.timeParse("%M:%S")(d.Time));
-
 		// get x and y axis scales
 		const xScale = d3
-			.scaleTime()
-			.domain(d3.extent(years))
+			.scaleTime() // set scale type to time, becouse of %Y values read from data array
+			.domain([
+				d3.min(json, (d) => d3.timeParse("%Y")(d.Year - 1)), // set domain 1 less than the min Year, so minimun values doesn't be over y axis
+				d3.max(json, (d) => d3.timeParse("%Y")(d.Year))
+			])
 			.range([padding, w - padding]);
 		const yScale = d3
 			.scaleTime() // set scale type to time, becouse of %M:%S values read from data array
-			.domain(d3.extent(times))
-			.range([h - padding, padding]);
+			.domain([
+				d3.min(json, (d) => d3.timeParse("%M:%S")(d.Time)),
+				d3.max(json, (d) => d3.timeParse("%M:%S")(d.Time)),
+			])
+			.range([padding, h - padding]);
 
 		// create x and y axis
-		const xAxis = d3.axisBottom(xScale); // quit comma thousands separator in values format
-		const yAxis = d3.axisLeft(yScale);
+		const xAxis = d3.axisBottom(xScale);
+		const yAxis = d3.axisLeft(yScale).tickFormat(d3.timeFormat("%M:%S")); // show Time values correctly
 
 		// draw x and y axis
 		svg.append("g")
 			.attr("id", "x-axis")
 			.attr("transform", "translate(0, " + (h - padding) + ")")
-			.call(xAxis).ticks(d3.timeYear.every(2));
+			.call(xAxis);
 		svg.append("g")
 			.attr("id", "y-axis")
 			.attr("transform", "translate(" + padding + ", 0)")
@@ -59,5 +61,53 @@ document.addEventListener("DOMContentLoaded", function () {
 
 		// select tick elements to add tick class to them
 		d3.selectAll("ticks").attr("class", "tick");
+
+		svg.selectAll("rect")
+			.data(json)
+			.enter()
+			.append("circle")
+			.attr("class", "dot")
+			.attr("cx", (d) => xScale(d3.timeParse("%Y")(d.Year))) // set rect on date data from json.data[0]
+			.attr("cy", (d) => yScale(d3.timeParse("%M:%S")(d.Time)))
+			.attr("r", 6)
+			.attr("fill", (d) => d.Doping === "" ? "rgba(22, 137, 214, 0.5)" : "rgba(22, 214, 70, 0.5)")
+			.attr("data-date", (d) => d[0])
+			.attr("data-gdp", (d) => d[1])
+			.style("stroke", "green")
+			.style("transition-duration", "50ms")
+			.on("mouseover", (e) => {
+				// add mouseover event to bars
+				d3.select("#tooltip-date").text(`${e[0]}`);
+				d3.select("#tooltip-gdp").text(
+					`USD${e[1].toLocaleString("en-US", {
+						style: "currency",
+						currency: "USD",
+					})}`
+				);
+				tooltip
+					.attr("data-date", e[0])
+					.attr("data-gdp", e[1])
+					.style("visibility", "visible") // show tooltip
+					.style(
+						"top",
+						`${
+							yScale(e[1]) + 80 > h
+								? yScale(e[1]) - 80
+								: yScale(e[1])
+						}px`
+					)
+					.style(
+						"left",
+						`${
+							padding + xScale(new Date(e[0])) + 200 > w
+								? xScale(new Date(e[0])) - 200 - padding
+								: padding + xScale(new Date(e[0]))
+						}px`
+					);
+			})
+			.on("mouseout", (e) => {
+				// add mouseout event to bars
+				tooltip.style("visibility", "hidden"); // hide tooltip
+			});
 	};
 });
