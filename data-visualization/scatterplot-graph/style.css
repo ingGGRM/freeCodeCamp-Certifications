@@ -28,6 +28,7 @@ body {
 }
 
 #root {
+	position: relative;
 	width: 70%;
 	height: 70vh;
 	min-width: 400px;
@@ -40,4 +41,40 @@ body {
 #graph {
 	width: 100%;
 	height: 100%;
+}
+
+#tooltip {
+	position: absolute;
+	top: 0;
+	left: 0;
+	visibility: hidden;
+	z-index: 10;
+	background: whitesmoke;
+	width: 200px;
+	height: auto;
+	padding: 5px !important;;
+	border: 3px solid rgba(0, 140, 255, 0.849);
+	border-radius: 10px;
+	color: rgb(77, 72, 72);
+	font-size: 13px;
+	font-weight: 500;
+	text-align: justify;
+	transition-duration: 100ms;
+}
+
+#legend {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	z-index: 10;
+	background: rgba(128, 128, 128, 0.3);
+	width: 170px;
+	height: auto;
+	padding: 5px !important;
+	border: 3px solid rgba(0, 140, 255, 0.849);
+	border-radius: 10px;
+	color: rgb(77, 72, 72);
+	font-size: 13px;
+	font-weight: 500;
+	text-align: justify;
 }
