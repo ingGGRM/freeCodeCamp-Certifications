@@ -1,0 +1,39 @@
+*, html, body {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    width: 100%;
+    min-width: 500px;
+    display: grid;
+    grid-template-rows: 1fr 8fr;
+}
+
+#title {
+    position: relative;
+    top: 0;
+    width: fit-content;
+    margin: auto;
+    text-align: center;
+    padding: 10px;
+}
+
+#title div:first-of-type {
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    font-size: 36px;
+    color: rgb(212, 203, 203);
+    text-shadow: 0 0 5px black, 0 0 10px orangered;
+}
+
+#title div:last-of-type {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 24px;
+    color: brown;
+}
+
+#root {
+    padding: 10%;
+}
