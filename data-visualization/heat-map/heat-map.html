@@ -15,11 +15,13 @@
 		<script src="./script.js"></script>
 		<link rel="stylesheet" href="style.css" />
 	</head>
-	<body init=startUp()>
-		<div id="title">
-			<div>Monthly Global Land-Surface Temperature</div>
-			<div>1753 - 2015: base temperature 8.66℃</div>
+	<body>
+		<div id="container">
+			<div id="title-container" class="container-fluid">
+				<div id="title">Monthly Global Land-Surface Temperature</div>
+				<div id="description"><span id="min-year">year0</span> - <span id="max-year">year1</span>: base temperature <span id="base-temp">0</span>℃</div>
+			</div>
+			<div id="root"></div>
 		</div>
-		<div id="root" class="container-fluid"></div>
 	</body>
 </html>
