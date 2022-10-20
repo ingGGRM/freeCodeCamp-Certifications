@@ -212,7 +212,7 @@ function builder() {
 				.enter()
 				.append("text")
 				.text((d) => `${Number(d).toFixed(2)} C`)
-				.attr("x", (d, i) => w * [0.25, 0.47, 0.685][i])
+				.attr("x", (d, i) => (w / 2) - [20 +(40*4), 20, -(20 +(40*3))][i])
 				.attr("y", 20)
 				.style("font-size", 18);
 		}
