@@ -1,3 +1,14 @@
+const url = [
+	{
+		usEducation:
+			"https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/for_user_education.json",
+	},
+	{
+		usCounty:
+			"https://cdn.freecodecamp.org/testable-projects-fcc/data/choropleth_map/counties.json",
+	},
+];
+
 document.addEventListener("DOMContentLoaded", function () {
 	builder();
 });
@@ -13,7 +24,21 @@ function builder() {
 	const svg = d3
 		.select(container)
 		.append("svg")
-        .attr("id", "graph")
-		.attr("width", w)
-		.attr("height", h)
+		.attr("id", "graph")
+		// Responsive SVG needs these 2 attributes and no width and height attr.
+		.attr("preserveAspectRatio", "xMinYMin meet")
+		.attr("viewBox", `0 0 900 500`)
+		//.attr("viewBox", `0 0 ${w.slice(0,-2)} ${h.slice(0,-2)}`)
+		//.attr("width", w)
+		//.attr("height", h)
+		.classed("svg-content-responsive", true)
+		.style("border", "1px solid black");
+
+	// Map and projection
+	let path = d3.geoPath();
+	let projection = d3
+		.geoMercator()
+		.scale(70)
+		.center([0, 20])
+		.translate([width / 2, height / 2]);
 }
