@@ -43,7 +43,11 @@ function builder() {
 					let dataSet = {};
 					// make a map with the data and the id of the counties, so can get the bachelorsOrHigher for an specific id
 					data.map((d) => {
-						dataSet[d.fips] = d.bachelorsOrHigher;
+						dataSet[d.fips] = {
+							education: d.bachelorsOrHigher,
+							area: d.area_name,
+							state: d.state
+						};
 					});
 
 					// Color scale using the max value of the dato to get 7 numbers for the 7 colors range
@@ -73,7 +77,23 @@ function builder() {
 						.attr("width", "100px")
 						.attr("height", "100px")
 						.style("border", "1px solid green")
-						.style("fill", "black")
+						.style("fill", "black");
+
+					// create tooltip and set it's visibility as hidden
+					d3.select(container)
+						.append("div")
+						.attr("id", "tooltip")
+						.style("visibility", "hidden")
+						.style("transition", "0ms")
+						.style("width", "150px")
+						.style("height", "auto")
+						.style("padding", "5px")
+						.style("position", "absolute")
+						.style("z-index", 10)
+						.style("border", "1px solid black")
+						.style("border-radius", "10px")
+						.style("color", "white")
+						.style("font-size", "80%");
 
 					// Draw the map
 					let feature = topojson.feature(us, us.objects.counties);
@@ -87,13 +107,29 @@ function builder() {
 						.attr("d", d3.geoPath())
 						.attr("transform", `scale(0.85, 0.7)`)
 						.attr("class", "county")
-						.attr("fill", (d) => colorScale(dataSet[d.id]))
+						.attr("fill", (d) => colorScale(dataSet[d.id].education))
 						.attr("data-fips", (d) => d.id)
-						.attr("data-education", (d) => dataSet[d.id]);
-					
-					console.log(colorScale.range())
+						.attr("data-education", (d) => dataSet[d.id].education)
 
-					legend.selectAll("rect")
+						// add mouseover event to cells
+						.on("mouseover", (e) => {
+							console.log(d3.event)
+							d3.select("#tooltip")
+								.attr("data-education", dataSet[e.id].education)
+								.style("left", (d3.event.screenX - 200) + "px")
+                    			.style("top", (d3.event.screenY - 200) + "px")
+								.style("background-color", "rgba(0,0,0,0.75")
+								.style("visibility", "visible")
+								.text(`${dataSet[e.id].area}, ${dataSet[e.id].state} (${dataSet[e.id].education}%)`);
+						})
+						.on("mouseout", (e) => {
+							// add mouseout event to bars
+							d3.select("#tooltip").style("visibility", "hidden");
+						});
+
+					// set legend information
+					legend
+						.selectAll("rect")
 						.data(colorScale.range())
 						.enter()
 						.append("rect")
@@ -101,15 +137,15 @@ function builder() {
 						.attr("y", (d, i) => `${50 * (i + 1)}px`)
 						.attr("width", "15px")
 						.attr("height", "40px")
-						.attr("fill", d => d);
-
-					legend.selectAll("text")
+						.attr("fill", (d) => d);
+					legend
+						.selectAll("text")
 						.data(colorScale.domain())
 						.enter()
 						.append("text")
 						.attr("x", "calc(93%)")
-						.attr("y", (d, i) => `${75 + (i * 50)}px`)
-						.text(d => d.toFixed(2))
+						.attr("y", (d, i) => `${75 + i * 50}px`)
+						.text((d) => d.toFixed(2))
 						.style("font-size", "2vh");
 				}
 			);
