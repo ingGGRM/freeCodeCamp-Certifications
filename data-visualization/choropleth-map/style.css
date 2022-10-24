@@ -48,7 +48,8 @@ body {
     display: inline-block;
     position: relative;
     width: 100%;
-    height: calc(100vh - 14vh - 10px - 2em);
+    height: fit-content;
+    /*height: calc(100vh - 14vh - 10px - 2em);*/
     vertical-align: top;
 }
 
