@@ -18,10 +18,9 @@ const dataBases = {
 
 document.addEventListener("DOMContentLoaded", function () {
 	const container = document.getElementById("graph-container");
-	//const w = d3.select(container).style("width"); // get container div width
-	//const h = d3.select(container).style("height"); // get container div height;
-	const w = 800;
-	const h = 500;
+	const margin = 10; // this is the empty space to the edges of the graph
+	const w = 800 - (2 * margin);
+	const h = 500 - (2 * margin);
 
 	// set title and description of the graph
 	const dataBase = dataBases.MovieSales;
@@ -35,12 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
 		.attr("id", "graph")
 		// Responsive SVG needs these 2 attributes and no width and height attr.
 		.attr("preserveAspectRatio", "xMinYMin meet")
-		.attr("viewBox", `0 0 ${w} ${h}`)
-		//.attr("viewBox", `0 0 ${w.slice(0,-2)} ${h.slice(0,-2)}`)
-		//.attr("width", w)
-		//.attr("height", h)
+		.attr("viewBox", `0 0 ${w + (2 * margin)} ${h + (2 * margin)}`) // make size take on account the margins for the inner graph
 		.classed("svg-content-responsive", true)
-		.style("border", "1px solid black");
+		.style("border", "1px solid black")
+		.append("g") // this group will contain the whole graph
+		.attr("transform", "translate(" + margin + "," + margin + ")");
 
 	// read json data
 	d3.json(dataBase.url, function (data) {
@@ -98,5 +96,7 @@ document.addEventListener("DOMContentLoaded", function () {
 			.style("stroke", "black")
 			.style("fill", d => color(d.parent.data.name))
 			.style("opacity", d => opacity(d.data.value));
+		
+		
 	});
 });
